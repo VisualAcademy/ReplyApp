@@ -26,6 +26,20 @@ namespace ReplyApp.Models
         //[6][1] 입력
         public async Task<Reply> AddAsync(Reply model)
         {
+            #region Reply 기능 추가
+            // 현재테이블의 Ref의 Max값 가져오기
+            int maxRef = 1;
+            int? max = _context.Replys.Max(m => m.Ref);
+            if (max.HasValue)
+            {
+                maxRef = (int)max + 1;
+            }
+
+            model.Ref = maxRef;
+            model.Step = 0;
+            model.RefOrder = 0; 
+            #endregion
+
             try
             {
                 _context.Replys.Add(model);
@@ -294,7 +308,8 @@ namespace ReplyApp.Models
                     items = items.OrderByDescending(m => m.Title);
                     break;
                 default:
-                    items = items.OrderByDescending(m => m.Id); 
+                    //items = items.OrderByDescending(m => m.Id); 
+                    items = items.OrderByDescending(m => m.Ref).ThenBy(m => m.RefOrder);
                     break;
             }
 
@@ -302,6 +317,42 @@ namespace ReplyApp.Models
             items = items.Skip(pageIndex * pageSize).Take(pageSize);
 
             return new ArticleSet<Reply, int>(await items.ToListAsync(), totalCount);
+        }
+
+        // 답변
+        public async Task<Reply> AddAsync(Reply model, int parentRef, int parentStep, int parentOrder)
+        {
+            // 비집고 들어갈 자리 
+            var replys = await _context.Replys.Where(m => m.Ref == parentRef && m.RefOrder > parentOrder).ToListAsync();
+            foreach (var item in replys)
+            {
+                item.RefOrder = item.RefOrder + 1;
+                try
+                {
+                    _context.Replys.Attach(item);
+                    _context.Entry(item).State = EntityState.Modified;
+                    await _context.SaveChangesAsync();
+                }
+                catch (Exception e)
+                {
+                    _logger.LogError($"ERROR({nameof(AddAsync)}): {e.Message}");
+                }
+            }
+
+            model.Step = parentStep + 1;
+            model.RefOrder = parentOrder + 1;
+
+            try
+            {
+                _context.Replys.Add(model);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"ERROR({nameof(AddAsync)}): {e.Message}");
+            }
+
+            return model;
         }
     }
 }

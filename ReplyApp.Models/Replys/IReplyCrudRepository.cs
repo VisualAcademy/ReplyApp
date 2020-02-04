@@ -11,6 +11,7 @@ namespace ReplyApp.Models
     public interface IReplyCrudRepository<T>
     {
         Task<T> AddAsync(T model); // 입력
+        Task<T> AddAsync(T model, int parentRef, int parentStep, int parentOrder); // 답변
         Task<List<T>> GetAllAsync(); // 출력
         Task<T> GetByIdAsync(int id); // 상세
         Task<bool> EditAsync(T model); // 수정

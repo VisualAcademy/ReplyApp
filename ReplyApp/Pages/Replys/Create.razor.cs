@@ -4,11 +4,15 @@ using System;
 using System.Linq;
 using ReplyApp.Models;
 using VisualAcademy.Shared;
+using System.Threading.Tasks;
 
 namespace ReplyApp.Pages.Replys
 {
     public partial class Create
     {
+        [Parameter]
+        public int Id { get; set; } = 0; 
+
         [Inject]
         public IReplyRepository ReplyRepositoryAsyncReference { get; set; }
 
@@ -20,6 +24,28 @@ namespace ReplyApp.Pages.Replys
         public string ParentId { get; set; }
 
         protected int[] parentIds = { 1, 2, 3 };
+
+        // 부모 글의 Id를 임시 보관
+        public int ParentRef { get; set; } = 0;
+        public int ParentStep { get; set; } = 0;
+        public int ParentRefOrder { get; set; } = 0;
+
+        protected override async Task OnInitializedAsync()
+        {
+            if (Id != 0)
+            {
+                // 기존 글의 데이터를 읽어오기 
+                model = await ReplyRepositoryAsyncReference.GetByIdAsync(Id);
+                model.Id = 0; 
+                model.Name = "";
+                model.Title = "Re: " + model.Title;
+                model.Content = "\r\n====\r\n" + model.Content;
+
+                ParentRef = (int)model.Ref; 
+                ParentStep = (int)model.Step; 
+                ParentRefOrder = (int)model.RefOrder;
+            }
+        }
 
         protected async void FormSubmit()
         {
@@ -46,7 +72,17 @@ namespace ReplyApp.Pages.Replys
             }
             #endregion
 
-            await ReplyRepositoryAsyncReference.AddAsync(model);
+            if (Id != 0)
+            {
+                // 답변 글이라면,
+                await ReplyRepositoryAsyncReference.AddAsync(model, ParentRef, ParentStep, ParentRefOrder);
+            }
+            else
+            {
+                // 일반 작성 글이라면,
+                await ReplyRepositoryAsyncReference.AddAsync(model);
+            }
+
             NavigationManagerReference.NavigateTo("/Replys");
         }
 

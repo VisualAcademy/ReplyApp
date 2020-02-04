@@ -92,8 +92,19 @@ namespace ReplyApp.Models
         #endregion
 
         #region 답변형 게시판 관련 주요 속성
+        /// <summary>
+        /// 참조(부모글)
+        /// </summary>
         public int? Ref { get; set; }
+
+        /// <summary>
+        /// 답변깊이(레벨)
+        /// </summary>
         public int? Step { get; set; }
+
+        /// <summary>
+        /// 답변순서
+        /// </summary>
         public int? RefOrder { get; set; } 
         #endregion
     }
