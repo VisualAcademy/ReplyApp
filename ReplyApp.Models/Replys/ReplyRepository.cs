@@ -118,8 +118,11 @@ namespace ReplyApp.Models
             return new PagingResult<Reply>(models, totalRecords); 
         }
 
-        // 부모
-        public async Task<PagingResult<Reply>> GetAllByParentIdAsync(int pageIndex, int pageSize, int parentId)
+        //[6][7] 부모
+        public async Task<PagingResult<Reply>> GetAllByParentIdAsync(
+            int pageIndex,
+            int pageSize,
+            int parentId)
         {
             var totalRecords = await _context.Replys.Where(m => m.ParentId == parentId).CountAsync();
             var models = await _context.Replys
@@ -133,7 +136,7 @@ namespace ReplyApp.Models
             return new PagingResult<Reply>(models, totalRecords);
         }
 
-        // 상태
+        //[6][8] 상태
         public async Task<Tuple<int, int>> GetStatus(int parentId)
         {
             var totalRecords = await _context.Replys.Where(m => m.ParentId == parentId).CountAsync();
@@ -142,7 +145,7 @@ namespace ReplyApp.Models
             return new Tuple<int, int>(pinnedRecords, totalRecords); // (2, 10)
         }
 
-        // DeleteAllByParentId
+        //[6][9] 부모 삭제
         public async Task<bool> DeleteAllByParentId(int parentId)
         {
             try
@@ -165,8 +168,11 @@ namespace ReplyApp.Models
             return false; 
         }
 
-        // 검색
-        public async Task<PagingResult<Reply>> SearchAllAsync(int pageIndex, int pageSize, string searchQuery)
+        //[6][10] 검색
+        public async Task<PagingResult<Reply>> SearchAllAsync(
+            int pageIndex,
+            int pageSize,
+            string searchQuery)
         {
             var totalRecords = await _context.Replys
                 .Where(m => m.Name.Contains(searchQuery) || m.Title.Contains(searchQuery) || m.Title.Contains(searchQuery))
@@ -182,7 +188,12 @@ namespace ReplyApp.Models
             return new PagingResult<Reply>(models, totalRecords);
         }
 
-        public async Task<PagingResult<Reply>> SearchAllByParentIdAsync(int pageIndex, int pageSize, string searchQuery, int parentId)
+        //[6][11] 부모 검색
+        public async Task<PagingResult<Reply>> SearchAllByParentIdAsync(
+            int pageIndex,
+            int pageSize,
+            string searchQuery,
+            int parentId)
         {
             var totalRecords = await _context.Replys.Where(m => m.ParentId == parentId)
                 .Where(m => EF.Functions.Like(m.Name, $"%{searchQuery}%") || m.Title.Contains(searchQuery) || m.Title.Contains(searchQuery))
@@ -198,6 +209,7 @@ namespace ReplyApp.Models
             return new PagingResult<Reply>(models, totalRecords);
         }
 
+        //[6][12] 통계
         public async Task<SortedList<int, double>> GetMonthlyCreateCountAsync()
         {
             SortedList<int, double> createCounts = new SortedList<int, double>();
@@ -225,7 +237,11 @@ namespace ReplyApp.Models
             return await Task.FromResult(createCounts);
         }
 
-        public async Task<PagingResult<Reply>> GetAllByParentKeyAsync(int pageIndex, int pageSize, string parentKey)
+        //[6][13] 부모 페이징
+        public async Task<PagingResult<Reply>> GetAllByParentKeyAsync(
+            int pageIndex,
+            int pageSize,
+            string parentKey)
         {
             var totalRecords = await _context.Replys.Where(m => m.ParentKey == parentKey).CountAsync();
             var models = await _context.Replys
@@ -239,7 +255,12 @@ namespace ReplyApp.Models
             return new PagingResult<Reply>(models, totalRecords);
         }
 
-        public async Task<PagingResult<Reply>> SearchAllByParentKeyAsync(int pageIndex, int pageSize, string searchQuery, string parentKey)
+        //[6][14] 부모 검색
+        public async Task<PagingResult<Reply>> SearchAllByParentKeyAsync(
+            int pageIndex,
+            int pageSize,
+            string searchQuery,
+            string parentKey)
         {
             var totalRecords = await _context.Replys.Where(m => m.ParentKey == parentKey)
                 .Where(m => EF.Functions.Like(m.Name, $"%{searchQuery}%") || m.Title.Contains(searchQuery) || m.Title.Contains(searchQuery))
@@ -255,7 +276,14 @@ namespace ReplyApp.Models
             return new PagingResult<Reply>(models, totalRecords);
         }
 
-        public async Task<ArticleSet<Reply, int>> GetArticles<TParentIdentifier>(int pageIndex, int pageSize, string searchField, string searchQuery, string sortOrder, TParentIdentifier parentIdentifier) 
+        //[6][15] 리스트(페이징, 검색, 정렬)
+        public async Task<ArticleSet<Reply, int>> GetArticles<TParentIdentifier>(
+            int pageIndex,
+            int pageSize,
+            string searchField,
+            string searchQuery,
+            string sortOrder,
+            TParentIdentifier parentIdentifier) 
         {
             //var items = from m in _context.Replys select m; // 쿼리 구문(Query Syntax)
             var items = _context.Replys.Select(m => m); // 메서드 구문(Method Syntax)
@@ -319,7 +347,7 @@ namespace ReplyApp.Models
             return new ArticleSet<Reply, int>(await items.ToListAsync(), totalCount);
         }
 
-        // 답변
+        //[6][16] 답변
         public async Task<Reply> AddAsync(Reply model, int parentRef, int parentStep, int parentOrder)
         {
             // 비집고 들어갈 자리 
