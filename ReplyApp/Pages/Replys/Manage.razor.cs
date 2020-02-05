@@ -200,8 +200,15 @@ namespace ReplyApp.Pages.Replys
             await DisplayData();
 
             StateHasChanged();
-        } 
+        }
         #endregion
+
+        protected void DownloadExcelWithWebApi()
+        {
+            FileUtil.SaveAsExcel(JSRuntime, "/ReplyDownload/ExcelDown");
+
+            NavigationManagerReference.NavigateTo($"/Replys"); // 다운로드 후 현재 페이지 다시 로드
+        }
 
         protected void DownloadExcel()
         {

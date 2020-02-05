@@ -1,5 +1,4 @@
-﻿@page "/Replys"
-@page "/Replys/Index"
+﻿@page "/Replys/Index"
 
 <h3>Reply List <a href="/Replys/Create"><span class="oi oi-plus"></span></a></h3>
 
@@ -24,7 +23,6 @@
     <div class="col-md-12">
         @if (models == null)
         {
-            @*<p><em>Loading...</em></p>*@
             <div>
                 <p>
                     <MatProgressBar Indeterminate="true"></MatProgressBar>
@@ -33,50 +31,52 @@
         }
         else
         {
-            <table class="table table-bordered table-hover">
-                <thead class="thead-light">
-                    <tr>
-                        <th>ID</th>
-                        <th @onclick="@(() => SortByName())" style="cursor: pointer;">Name <ReplyApp.Pages.Replys.Components.SortOrderArrow SortColumn="Name" SortOrder="@sortOrder"></ReplyApp.Pages.Replys.Components.SortOrderArrow></th>
-                        <th @onclick="@(() => SortByTitle())" style="cursor: pointer;">Title <ReplyApp.Pages.Replys.Components.SortOrderArrow SortColumn="Title" SortOrder="@sortOrder"></ReplyApp.Pages.Replys.Components.SortOrderArrow></th>
-                        <th>Created</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                @if (models.Count == 0)
-                {
-                    <tbody>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-light">
                         <tr>
-                            <td colspan="4" class="text-center">
-                                <p>데이터가 없습니다.</p>
-                            </td>
+                            <th>ID</th>
+                            <th @onclick="@(() => SortByName())" style="cursor: pointer;">Name <ReplyApp.Pages.Replys.Components.SortOrderArrow SortColumn="Name" SortOrder="@sortOrder"></ReplyApp.Pages.Replys.Components.SortOrderArrow></th>
+                            <th @onclick="@(() => SortByTitle())" style="cursor: pointer;">Title <ReplyApp.Pages.Replys.Components.SortOrderArrow SortColumn="Title" SortOrder="@sortOrder"></ReplyApp.Pages.Replys.Components.SortOrderArrow></th>
+                            <th>Created</th>
+                            <th>Action</th>
                         </tr>
-                    </tbody>
-                }
-                else
-                {
-                    <tbody>
-                        @foreach (var m in models)
-                        {
+                    </thead>
+                    @if (models.Count == 0)
+                    {
+                        <tbody>
                             <tr>
-                                <td>@m.Id</td>
-                                <td @onclick="@(() => NameClick(m.Id))">
-                                    <a href="/Replys/Details/@m.Id">
-                                        @m.Name
-                                    </a>
-                                </td>
-                                <td>@m.Title</td>
-                                <td>@m.Created?.ToShortTimeString()</td>
-                                <td>
-                                    <a href="/Replys/Details/@m.Id" class="btn btn-light">Details</a>
-                                    <a href="/Replys/Edit/@m.Id" class="btn btn-light">Edit</a>
-                                    <a href="/Replys/Delete/@m.Id" class="btn btn-light">Delete</a>
+                                <td colspan="4" class="text-center">
+                                    <p>데이터가 없습니다.</p>
                                 </td>
                             </tr>
-                        }
-                    </tbody>
-                }
-            </table>
+                        </tbody>
+                    }
+                    else
+                    {
+                        <tbody>
+                            @foreach (var m in models)
+                            {
+                                <tr>
+                                    <td>@m.Id</td>
+                                    <td @onclick="@(() => NameClick(m.Id))">
+                                        <a href="/Replys/Details/@m.Id">
+                                            @m.Name
+                                        </a>
+                                    </td>
+                                    <td>@m.Title</td>
+                                    <td>@m.Created?.ToShortTimeString()</td>
+                                    <td>
+                                        <a href="/Replys/Details/@m.Id" class="btn btn-light">Details</a>
+                                        <a href="/Replys/Edit/@m.Id" class="btn btn-light">Edit</a>
+                                        <a href="/Replys/Delete/@m.Id" class="btn btn-light">Delete</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    }
+                </table>
+            </div>
         }
     </div>
     <div class="col-md-12">

@@ -7,13 +7,13 @@
     [Parameter]
     public string SortOrder { get; set; }
 
-    private string arrow = "";
+    private string arrow = " ";
 
     protected override void OnParametersSet()
     {
         if (SortOrder == "")
         {
-            arrow = "";
+            arrow = " ";
         }
         else if (SortOrder.Contains(SortColumn) && SortOrder.Contains("Desc"))
         {

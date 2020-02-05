@@ -35,7 +35,7 @@ namespace ReplyApp.Pages.Uploads
                     Title = new OptionsTitle
                     {
                         Display = true,
-                        Text = "지난 1년동안의 공지사항 글 수"
+                        Text = $"지난 1년동안의 {nameof(UploadApp)} 글 수"
                     },
                     Scales = new BarScales
                     {

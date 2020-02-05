@@ -1,4 +1,5 @@
-﻿@page "/Replys/Manage"
+﻿@page "/Replys"
+@page "/Replys/Manage"
 
 <h3>Reply Manage <a href="/Replys/Create"><span class="oi oi-plus"></span></a></h3>
 
@@ -18,6 +19,7 @@
         <AuthorizeView Roles="Administrators, Managers">
             <a href="/Replys/Index" class="btn btn-primary">List</a>
         </AuthorizeView>
+        <input type="button" class="btn btn-primary" value="Excel Export With Web API" @onclick="DownloadExcelWithWebApi" />
         <input type="button" class="btn btn-primary" value="Excel Export" @onclick="DownloadExcel" />
         <a href="/ReplyDownload/ExcelDown" class="btn btn-primary">Excel Export</a>
     </div>
@@ -27,7 +29,6 @@
     <div class="col-md-12">
         @if (models == null)
         {
-            @*<p><em>Loading...</em></p>*@
             <div>
                 <p>
                     <MatProgressBar Indeterminate="true"></MatProgressBar>
@@ -36,59 +37,61 @@
         }
         else
         {
-            <table class="table table-bordered table-hover">
-                <thead class="thead-light">
-                    <tr>
-                        <th>ID</th>
-                        <th @onclick="@(() => SortByName())" style="cursor: pointer;">Name <ReplyApp.Pages.Replys.Components.SortOrderArrow SortColumn="Name" SortOrder="@sortOrder"></ReplyApp.Pages.Replys.Components.SortOrderArrow></th>
-                        <th @onclick="@(() => SortByTitle())" style="cursor: pointer;">Title <ReplyApp.Pages.Replys.Components.SortOrderArrow SortColumn="Title" SortOrder="@sortOrder"></ReplyApp.Pages.Replys.Components.SortOrderArrow></th>
-                        <th>Created</th>
-                        <th>IsPinned</th>
-                        <th>Action</th>
-                        <th>Admin</th>
-                    </tr>
-                </thead>
-                @if (models.Count == 0)
-                {
-                    <tbody>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-light">
                         <tr>
-                            <td colspan="6" class="text-center">
-                                <p>데이터가 없습니다.</p>
-                            </td>
+                            <th>ID</th>
+                            <th @onclick="@(() => SortByName())" style="cursor: pointer; width:20%;">Name <ReplyApp.Pages.Replys.Components.SortOrderArrow SortColumn="Name" SortOrder="@sortOrder"></ReplyApp.Pages.Replys.Components.SortOrderArrow></th>
+                            <th @onclick="@(() => SortByTitle())" style="cursor: pointer; width:20%;">Title <ReplyApp.Pages.Replys.Components.SortOrderArrow SortColumn="Title" SortOrder="@sortOrder"></ReplyApp.Pages.Replys.Components.SortOrderArrow></th>
+                            <th>Created</th>
+                            <th>IsPinned</th>
+                            <th>Action</th>
+                            <th>Admin</th>
                         </tr>
-                    </tbody>
-                }
-                <tbody>
-                    @foreach (var m in models)
+                    </thead>
+                    @if (models.Count == 0)
                     {
-                        <tr>
-                            <td>@m.Id</td>
-                            <td @onclick="@(() => NameClick(m.Id))">
-                                <a href="/Replys/Details/@m.Id">
-                                    @m.Name
-                                </a>
-                            </td>
-                            <td>@m.Title</td>
-                            <td>@m.Created?.ToShortTimeString()</td>
-                            <td>
-                                @(m.IsPinned == true ? "공지" : "")
-                            </td>
-                            <td>
-                                <a href="/Replys/Details/@m.Id" class="btn btn-light">Details</a>
-                                <a href="/Replys/Edit/@m.Id" class="btn btn-light">Edit</a>
-                                <a href="/Replys/Delete/@m.Id" class="btn btn-light">Delete</a>
-                            </td>
-                            <td>
-                                <input type="button" name="btnEdit" value="Edit with Modal" class="btn btn-primary" @onclick="(() => EditBy(m))" />
-                                <input type="button" name="btnDelete" value="Delete with Modal" class="btn btn-primary" @onclick="(() => DeleteBy(m))" />
-                                <input type="button" name="btnToggle" value="Toggle with Modal" class="btn btn-primary" @onclick="(() => ToggleBy(m))" />
-                                @*<input type="button" name="btnDownload" value="Download" class="btn btn-primary" @onclick="(() => DownloadBy(m))" />*@
-                                <a href="/ReplyDownload/FileDown/@m.Id" class="btn btn-primary">다운로드</a>
-                            </td>
-                        </tr>
+                        <tbody>
+                            <tr>
+                                <td colspan="6" class="text-center">
+                                    <p>데이터가 없습니다.</p>
+                                </td>
+                            </tr>
+                        </tbody>
                     }
-                </tbody>
-            </table>
+                    <tbody>
+                        @foreach (var m in models)
+                        {
+                            <tr>
+                                <td>@m.Id</td>
+                                <td @onclick="@(() => NameClick(m.Id))">
+                                    <a href="/Replys/Details/@m.Id">
+                                        @m.Name
+                                    </a>
+                                </td>
+                                <td>@m.Title</td>
+                                <td>@m.Created?.ToShortTimeString()</td>
+                                <td>
+                                    @(m.IsPinned == true ? "공지" : "")
+                                </td>
+                                <td>
+                                    <a href="/Replys/Details/@m.Id" class="btn btn-light">Details</a>
+                                    <a href="/Replys/Edit/@m.Id" class="btn btn-light">Edit</a>
+                                    <a href="/Replys/Delete/@m.Id" class="btn btn-light">Delete</a>
+                                </td>
+                                <td>
+                                    <input type="button" name="btnEdit" value="Edit with Modal" class="btn btn-primary" @onclick="(() => EditBy(m))" />
+                                    <input type="button" name="btnDelete" value="Delete with Modal" class="btn btn-primary" @onclick="(() => DeleteBy(m))" />
+                                    <input type="button" name="btnToggle" value="Toggle with Modal" class="btn btn-primary" @onclick="(() => ToggleBy(m))" />
+                                    @*<input type="button" name="btnDownload" value="Download" class="btn btn-primary" @onclick="(() => DownloadBy(m))" />*@
+                                    <a href="/ReplyDownload/FileDown/@m.Id" class="btn btn-primary">다운로드</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         }
     </div>
     <div class="col-md-12">
@@ -99,15 +102,11 @@
     </div>
 </div>
 
-<ReplyApp.Pages.Replys.Components.EditorForm @ref="EditorFormReference"
-                                               Model="model"
-                                               CreateCallback="CreateOrEdit"
-                                               EditCallback="CreateOrEdit">
+<ReplyApp.Pages.Replys.Components.EditorForm @ref="EditorFormReference" Model="model" CreateCallback="CreateOrEdit" EditCallback="CreateOrEdit">
     <EditorFormTitle>@EditorFormTitle</EditorFormTitle>
 </ReplyApp.Pages.Replys.Components.EditorForm>
 
-<ReplyApp.Pages.Replys.Components.DeleteDialog @ref="DeleteDialogReference"
-                                                 OnClick="DeleteClick">
+<ReplyApp.Pages.Replys.Components.DeleteDialog @ref="DeleteDialogReference" OnClick="DeleteClick">
 </ReplyApp.Pages.Replys.Components.DeleteDialog>
 
 @if (IsInlineDialogShow)

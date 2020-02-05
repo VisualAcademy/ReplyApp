@@ -11,5 +11,8 @@ namespace BlazorUtils
                 "saveAsFile",
                 filename,
                 Convert.ToBase64String(data));
+
+        public static ValueTask SaveAsExcel(this IJSRuntime js, string url)
+            => js.InvokeVoidAsync("saveAsExcel", url);
     }
 }
