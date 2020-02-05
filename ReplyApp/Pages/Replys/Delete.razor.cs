@@ -2,7 +2,7 @@
 using Microsoft.JSInterop;
 using ReplyApp.Models;
 using System.Threading.Tasks;
-using VisualAcademy.Shared;
+using ReplyApp.Managers;
 
 namespace ReplyApp.Pages.Replys
 {

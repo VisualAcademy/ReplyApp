@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components;
 using System;
 using System.Linq;
 using ReplyApp.Models;
-using VisualAcademy.Shared;
+using ReplyApp.Managers;
 using System.Threading.Tasks;
 
 namespace ReplyApp.Pages.Replys

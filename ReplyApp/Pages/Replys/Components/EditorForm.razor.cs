@@ -3,7 +3,7 @@ using ReplyApp.Models;
 using System;
 using BlazorInputFile;
 using System.Linq;
-using VisualAcademy.Shared;
+using ReplyApp.Managers;
 
 namespace ReplyApp.Pages.Replys.Components
 {

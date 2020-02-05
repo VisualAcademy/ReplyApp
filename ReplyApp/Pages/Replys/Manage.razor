@@ -39,22 +39,33 @@
         {
             <div class="table-responsive">
                 <table class="table table-bordered table-hover">
+                    <colgroup>
+                        <col style="width: 50px;" />
+                        <col style="width: 300px;" />
+                        <col style="width: 100px;" />
+                        <col style="width: 100px;" />
+                        <col style="width: 100px;" />
+                        <col style="width: 200px;" />
+                        <col style="width: 200px;" />
+                        <col style="width: auto;" />
+                    </colgroup>
                     <thead class="thead-light">
                         <tr>
-                            <th>ID</th>
-                            <th @onclick="@(() => SortByName())" style="cursor: pointer; width:20%;">Name <ReplyApp.Pages.Replys.Components.SortOrderArrow SortColumn="Name" SortOrder="@sortOrder"></ReplyApp.Pages.Replys.Components.SortOrderArrow></th>
-                            <th @onclick="@(() => SortByTitle())" style="cursor: pointer; width:20%;">Title <ReplyApp.Pages.Replys.Components.SortOrderArrow SortColumn="Title" SortOrder="@sortOrder"></ReplyApp.Pages.Replys.Components.SortOrderArrow></th>
-                            <th>Created</th>
-                            <th>IsPinned</th>
-                            <th>Action</th>
-                            <th>Admin</th>
+                            <th class="text-center">ID</th>
+                            <th class="text-center text-nowrap" @onclick="@(() => SortByTitle())" style="cursor: pointer;">Title <ReplyApp.Pages.Replys.Components.SortOrderArrow SortColumn="Title" SortOrder="@sortOrder"></ReplyApp.Pages.Replys.Components.SortOrderArrow></th>
+                            <th class="text-center text-nowrap" @onclick="@(() => SortByName())">Name <ReplyApp.Pages.Replys.Components.SortOrderArrow SortColumn="Name" SortOrder="@sortOrder"></ReplyApp.Pages.Replys.Components.SortOrderArrow></th>
+                            <th class="text-center text-nowrap">Created</th>
+                            <th class="text-center text-nowrap">ReadCount</th>
+                            <th class="text-center text-nowrap">Action</th>
+                            <th class="text-center text-nowrap">Admin</th>
+                            <th class="text-center text-nowrap">&nbsp;</th>
                         </tr>
                     </thead>
                     @if (models.Count == 0)
                     {
                         <tbody>
                             <tr>
-                                <td colspan="6" class="text-center">
+                                <td colspan="8" class="text-center">
                                     <p>데이터가 없습니다.</p>
                                 </td>
                             </tr>
@@ -64,29 +75,44 @@
                         @foreach (var m in models)
                         {
                             <tr>
-                                <td>@m.Id</td>
-                                <td @onclick="@(() => NameClick(m.Id))">
-                                    <a href="/Replys/Details/@m.Id">
-                                        @m.Name
-                                    </a>
+                                <td class="text-center" style="font-size: xx-small;">
+                                    @if (m.Step == 0)
+                                    {
+                                        @m.Id
+                                    }
+                                    else
+                                    {
+                                        <text>&nbsp;</text>
+                                    }
                                 </td>
-                                <td>@m.Title</td>
-                                <td>@m.Created?.ToShortTimeString()</td>
-                                <td>
-                                    @(m.IsPinned == true ? "공지" : "")
-                                </td>
-                                <td>
-                                    <a href="/Replys/Details/@m.Id" class="btn btn-light">Details</a>
-                                    <a href="/Replys/Edit/@m.Id" class="btn btn-light">Edit</a>
-                                    <a href="/Replys/Delete/@m.Id" class="btn btn-light">Delete</a>
+                                <td style="cursor: pointer;" @onclick="@(() => NameClick(m.Id))">
+                                    <span class="btn-link">@m.Title</span>
                                 </td>
                                 <td>
-                                    <input type="button" name="btnEdit" value="Edit with Modal" class="btn btn-primary" @onclick="(() => EditBy(m))" />
-                                    <input type="button" name="btnDelete" value="Delete with Modal" class="btn btn-primary" @onclick="(() => DeleteBy(m))" />
-                                    <input type="button" name="btnToggle" value="Toggle with Modal" class="btn btn-primary" @onclick="(() => ToggleBy(m))" />
-                                    @*<input type="button" name="btnDownload" value="Download" class="btn btn-primary" @onclick="(() => DownloadBy(m))" />*@
-                                    <a href="/ReplyDownload/FileDown/@m.Id" class="btn btn-primary">다운로드</a>
+                                    @m.Name
                                 </td>
+                                <td class="text-center text-nowrap small">
+                                    @(Dul.BoardLibrary.FuncShowTime(m.Created))
+                                </td>
+                                <td class="text-center small">
+                                    @m.ReadCount
+                                </td>
+                                <td>
+                                    <a href="/Replys/Details/@m.Id" class="btn btn-sm btn-light">Details</a>
+                                    <a href="/Replys/Edit/@m.Id" class="btn btn-sm btn-light">Edit</a>
+                                    <a href="/Replys/Delete/@m.Id" class="btn btn-sm btn-light">Delete</a>
+                                </td>
+                                <td>
+                                    <input type="button" name="btnEdit" value="Edit" class="btn btn-sm btn-primary" @onclick="(() => EditBy(m))" />
+                                    <input type="button" name="btnDelete" value="Delete" class="btn btn-sm btn-danger" @onclick="(() => DeleteBy(m))" />
+                                    <input type="button" name="btnToggle" value="Toggle" class="btn btn-sm btn-primary" @onclick="(() => ToggleBy(m))" />
+                                    @if (m.FileSize > 0)
+                                    {
+                                        @*<input type="button" name="btnDownload" value="Download" class="btn btn-primary" @onclick="(() => DownloadBy(m))" />*@
+                                        <a href="/ReplyDownload/FileDown/@m.Id" class="btn btn-sm btn-primary">Down</a>
+                                    }
+                                </td>
+                                <td>&nbsp;</td>
                             </tr>
                         }
                     </tbody>

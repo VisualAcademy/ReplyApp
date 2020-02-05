@@ -37,7 +37,7 @@ namespace ReplyApp.Models
 
             model.Ref = maxRef;
             model.Step = 0;
-            model.RefOrder = 0; 
+            model.RefOrder = 0;
             #endregion
 
             try
@@ -50,7 +50,7 @@ namespace ReplyApp.Models
                 _logger.LogError($"ERROR({nameof(AddAsync)}): {e.Message}");
             }
 
-            return model; 
+            return model;
         }
 
         //[6][2] 출력
@@ -58,15 +58,27 @@ namespace ReplyApp.Models
         {
             return await _context.Replys.OrderByDescending(m => m.Id)
                 //.Include(m => m.ReplysComments)
-                .ToListAsync(); 
+                .ToListAsync();
         }
 
         //[6][3] 상세
         public async Task<Reply> GetByIdAsync(int id)
         {
-            return await _context.Replys
+
+            var model = await _context.Replys
                 //.Include(m => m.ReplysComments)
                 .SingleOrDefaultAsync(m => m.Id == id);
+
+            // ReadCount++
+            if (model != null)
+            {
+                model.ReadCount = model.ReadCount + 1;
+                _context.Replys.Attach(model);
+                _context.Entry(model).State = EntityState.Modified;
+                _context.SaveChanges(); 
+            }
+
+            return model; 
         }
 
         //[6][4] 수정
@@ -83,7 +95,7 @@ namespace ReplyApp.Models
                 _logger.LogError($"ERROR({nameof(EditAsync)}): {e.Message}");
             }
 
-            return false; 
+            return false;
         }
 
         //[6][5] 삭제
@@ -101,7 +113,7 @@ namespace ReplyApp.Models
                 _logger.LogError($"ERROR({nameof(DeleteAsync)}): {e.Message}");
             }
 
-            return false; 
+            return false;
         }
 
         //[6][6] 페이징
@@ -115,7 +127,7 @@ namespace ReplyApp.Models
                 .Take(pageSize)
                 .ToListAsync();
 
-            return new PagingResult<Reply>(models, totalRecords); 
+            return new PagingResult<Reply>(models, totalRecords);
         }
 
         //[6][7] 부모
@@ -165,7 +177,7 @@ namespace ReplyApp.Models
                 _logger.LogError($"ERROR({nameof(DeleteAllByParentId)}): {e.Message}");
             }
 
-            return false; 
+            return false;
         }
 
         //[6][10] 검색
@@ -217,7 +229,7 @@ namespace ReplyApp.Models
             // 1월부터 12월까지 0.0으로 초기화
             for (int i = 1; i <= 12; i++)
             {
-                createCounts[i] = 0.0; 
+                createCounts[i] = 0.0;
             }
 
             for (int i = 0; i < 12; i++)
@@ -231,7 +243,7 @@ namespace ReplyApp.Models
                     &&
                     Convert.ToDateTime(m.Created).Year == current.Year
                 ).ToList().Count();
-                createCounts[current.Month] = cnt;  
+                createCounts[current.Month] = cnt;
             }
 
             return await Task.FromResult(createCounts);
@@ -283,7 +295,7 @@ namespace ReplyApp.Models
             string searchField,
             string searchQuery,
             string sortOrder,
-            TParentIdentifier parentIdentifier) 
+            TParentIdentifier parentIdentifier)
         {
             //var items = from m in _context.Replys select m; // 쿼리 구문(Query Syntax)
             var items = _context.Replys.Select(m => m); // 메서드 구문(Method Syntax)
@@ -295,7 +307,7 @@ namespace ReplyApp.Models
             }
             else if (parentIdentifier is string parentKey && !string.IsNullOrEmpty(parentKey))
             {
-                items = items.Where(m => m.ParentKey == parentKey); 
+                items = items.Where(m => m.ParentKey == parentKey);
             }
 
             // Search Mode

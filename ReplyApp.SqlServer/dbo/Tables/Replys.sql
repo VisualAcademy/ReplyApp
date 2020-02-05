@@ -13,6 +13,8 @@ CREATE TABLE [dbo].[Replys]
 	[ModifiedBy] NVarChar(255) Null,					-- 수정자(LastModifiedBy)
 	[Modified] DateTime Null,							-- 수정일(LastModified)
 
+	ReadCount		Int Default 0,								-- 조회수 
+
 	--[2] 자료실 게시판 관련 주요 컬럼
     FileName        NVarChar(255) Null,                         -- 파일명
     FileSize        Int Default 0,                              -- 파일크기

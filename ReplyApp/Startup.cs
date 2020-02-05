@@ -11,7 +11,7 @@ using ReplyApp.Data;
 using UploadApp.Models;
 using NoticeApp.Models;
 using ReplyApp.Services;
-using VisualAcademy.Shared;
+using ReplyApp.Managers;
 using UploadApp.Managers;
 using ReplyApp.Models;
 

@@ -22,7 +22,6 @@
     <ProjectReference Include="..\BlazorInputFile\BlazorInputFile.csproj" />
     <ProjectReference Include="..\BlazorUtils\BlazorUtils.csproj" />
     <ProjectReference Include="..\ReplyApp.Models\ReplyApp.Models.csproj" />
-    <ProjectReference Include="..\VisualAcademy.Shared\VisualAcademy.Shared.csproj" />
   </ItemGroup>
 
 </Project>
