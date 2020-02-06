@@ -44,7 +44,7 @@ namespace ReplyApp
             AddDependencyInjectionContainerForUploadApp(services);
             AddDependencyInjectionContainerForReplyApp(services);
 
-            services.AddScoped<IFileUploadService, FileUploadService>();
+            //services.AddScoped<IFileUploadService, FileUploadService>();
 
             //services.AddTransient<IFileStorageManager, UploadAppBlobStorageManager>(); // Cloud Upload
             services.AddTransient<IFileStorageManager, UploadAppFileStorageManager>(); // Local Upload
