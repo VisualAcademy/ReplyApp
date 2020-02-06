@@ -9,7 +9,7 @@ namespace ReplyApp.Pages.Replys
     public partial class Index
     {
         [Inject]
-        public IReplyRepository ReplyRepositoryAsyncReference { get; set; }
+        public IReplyRepository RepositoryReference { get; set; }
 
         [Inject]
         public NavigationManager NavigationManagerReference { get; set; }
@@ -31,7 +31,7 @@ namespace ReplyApp.Pages.Replys
 
         private async Task DisplayData()
         {
-            var articleSet = await ReplyRepositoryAsyncReference.GetArticles<int>(pager.PageIndex, pager.PageSize, "", this.searchQuery, this.sortOrder, 0);
+            var articleSet = await RepositoryReference.GetArticles<int>(pager.PageIndex, pager.PageSize, "", this.searchQuery, this.sortOrder, 0);
             pager.RecordCount = articleSet.TotalCount;
             models = articleSet.Items.ToList();
 

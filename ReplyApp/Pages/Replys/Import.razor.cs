@@ -13,7 +13,7 @@ namespace ReplyApp.Pages.Replys
     public partial class Import
     {
         [Inject]
-        public IReplyRepository ReplyRepositoryAsyncReference { get; set; }
+        public IReplyRepository RepositoryReference { get; set; }
 
         [Inject]
         public NavigationManager NavigationManagerReference { get; set; }
@@ -53,7 +53,7 @@ namespace ReplyApp.Pages.Replys
             {
                 m.FileName = model.FileName;
                 m.FileSize = model.FileSize; 
-                await ReplyRepositoryAsyncReference.AddAsync(m);
+                await RepositoryReference.AddAsync(m);
             }
 
             NavigationManagerReference.NavigateTo("/Replys");

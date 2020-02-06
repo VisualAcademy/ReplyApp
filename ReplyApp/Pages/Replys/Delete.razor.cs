@@ -12,7 +12,7 @@ namespace ReplyApp.Pages.Replys
         public int Id { get; set; }
 
         [Inject]
-        public IReplyRepository ReplyRepositoryAsyncReference { get; set; }
+        public IReplyRepository RepositoryReference { get; set; }
 
         [Inject]
         public IJSRuntime JSRuntime { get; set; }
@@ -26,7 +26,7 @@ namespace ReplyApp.Pages.Replys
 
         protected override async Task OnInitializedAsync()
         {
-            model = await ReplyRepositoryAsyncReference.GetByIdAsync(Id);
+            model = await RepositoryReference.GetByIdAsync(Id);
             content = Dul.HtmlUtility.EncodeWithTabAndSpace(model.Content);
         }
 
@@ -42,7 +42,7 @@ namespace ReplyApp.Pages.Replys
                     await FileStorageManager.DeleteAsync(model.FileName, "");
                 }
 
-                await ReplyRepositoryAsyncReference.DeleteAsync(Id); // 삭제
+                await RepositoryReference.DeleteAsync(Id); // 삭제
                 NavigationManagerReference.NavigateTo("/Replys"); // 리스트 페이지로 이동
             }
             else

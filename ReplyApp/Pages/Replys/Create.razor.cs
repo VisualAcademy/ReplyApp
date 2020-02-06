@@ -14,7 +14,7 @@ namespace ReplyApp.Pages.Replys
         public int Id { get; set; } = 0; 
 
         [Inject]
-        public IReplyRepository ReplyRepositoryAsyncReference { get; set; }
+        public IReplyRepository RepositoryReference { get; set; }
 
         [Inject]
         public NavigationManager NavigationManagerReference { get; set; }
@@ -35,7 +35,7 @@ namespace ReplyApp.Pages.Replys
             if (Id != 0)
             {
                 // 기존 글의 데이터를 읽어오기 
-                model = await ReplyRepositoryAsyncReference.GetByIdAsync(Id);
+                model = await RepositoryReference.GetByIdAsync(Id);
                 model.Id = 0; 
                 model.Name = "";
                 model.Title = "Re: " + model.Title;
@@ -75,12 +75,12 @@ namespace ReplyApp.Pages.Replys
             if (Id != 0)
             {
                 // 답변 글이라면,
-                await ReplyRepositoryAsyncReference.AddAsync(model, ParentRef, ParentStep, ParentRefOrder);
+                await RepositoryReference.AddAsync(model, ParentRef, ParentStep, ParentRefOrder);
             }
             else
             {
                 // 일반 작성 글이라면,
-                await ReplyRepositoryAsyncReference.AddAsync(model);
+                await RepositoryReference.AddAsync(model);
             }
 
             NavigationManagerReference.NavigateTo("/Replys");

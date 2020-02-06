@@ -65,7 +65,7 @@ namespace ReplyApp.Pages.Replys.Components
         /// 리포지토리 클래스에 대한 참조 
         /// </summary>
         [Inject]
-        public IReplyRepository ReplyRepositoryAsyncReference { get; set; }
+        public IReplyRepository RepositoryReference { get; set; }
 
         protected override void OnParametersSet()
         {
@@ -115,13 +115,13 @@ namespace ReplyApp.Pages.Replys.Components
             if (Model.Id == 0)
             {
                 // Create
-                await ReplyRepositoryAsyncReference.AddAsync(Model);
+                await RepositoryReference.AddAsync(Model);
                 CreateCallback?.Invoke(); 
             }
             else
             {
                 // Edit
-                await ReplyRepositoryAsyncReference.EditAsync(Model);
+                await RepositoryReference.EditAsync(Model);
                 await EditCallback.InvokeAsync(true);
             }
             //IsShow = false; // this.Hide()

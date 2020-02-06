@@ -15,7 +15,7 @@ namespace ReplyApp.Pages.Replys
     public partial class Report
     {
         [Inject]
-        public IReplyRepository ReplyRepositoryReference { get; set; }
+        public IReplyRepository RepositoryReference { get; set; }
 
         private BarConfig _barChartConfig;
         private BarDataset<DoubleWrapper> _barDataSet;
@@ -71,7 +71,7 @@ namespace ReplyApp.Pages.Replys
                 //values.Add(i);
             }
 
-            var sortedList = await ReplyRepositoryReference.GetMonthlyCreateCountAsync();
+            var sortedList = await RepositoryReference.GetMonthlyCreateCountAsync();
             for (int i = 1; i <= 12; i++)
             {
                 values.Add(sortedList[i]);                

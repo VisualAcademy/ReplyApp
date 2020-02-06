@@ -14,7 +14,7 @@ namespace ReplyApp.Pages.Replys
         public int Id { get; set; }
 
         [Inject]
-        public IReplyRepository ReplyRepositoryAsyncReference { get; set; }
+        public IReplyRepository RepositoryReference { get; set; }
 
         [Inject]
         public NavigationManager NavigationManagerReference { get; set; }
@@ -29,7 +29,7 @@ namespace ReplyApp.Pages.Replys
 
         protected override async Task OnInitializedAsync()
         {
-            model = await ReplyRepositoryAsyncReference.GetByIdAsync(Id);
+            model = await RepositoryReference.GetByIdAsync(Id);
             content = Dul.HtmlUtility.EncodeWithTabAndSpace(model.Content);
             ParentId = model.ParentId.ToString(); 
         }
@@ -63,7 +63,7 @@ namespace ReplyApp.Pages.Replys
             }
             #endregion
 
-            await ReplyRepositoryAsyncReference.EditAsync(model);
+            await RepositoryReference.EditAsync(model);
             NavigationManagerReference.NavigateTo("/Replys");
         }
 
