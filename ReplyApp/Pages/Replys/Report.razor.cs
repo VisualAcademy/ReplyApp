@@ -33,7 +33,7 @@ namespace ReplyApp.Pages.Replys
                     Title = new OptionsTitle
                     {
                         Display = true,
-                        Text = $"지난 1년동안의 {nameof(ReplyApp)} 글 수"
+                        Text = $"지난 1년동안의 글 수"
                     },
                     Scales = new BarScales
                     {
