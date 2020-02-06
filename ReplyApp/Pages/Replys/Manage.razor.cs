@@ -22,7 +22,7 @@ namespace ReplyApp.Pages.Replys
         public string ParentKey { get; set; } = "";
 
         [Inject]
-        public IReplyRepository ReplyRepositoryAsyncReference { get; set; }
+        public IReplyRepository RepositoryReference { get; set; }
 
         [Inject]
         public NavigationManager NavigationManagerReference { get; set; }
@@ -30,12 +30,12 @@ namespace ReplyApp.Pages.Replys
         /// <summary>
         /// EditorForm에 대한 참조: 모달로 글쓰기 또는 수정하기
         /// </summary>
-        public ReplyApp.Pages.Replys.Components.EditorForm EditorFormReference { get; set; }
+        public Components.EditorForm EditorFormReference { get; set; }
 
         /// <summary>
         /// DeleteDialog에 대한 참조: 모달로 항목 삭제하기 
         /// </summary>
-        public ReplyApp.Pages.Replys.Components.DeleteDialog DeleteDialogReference { get; set; }
+        public Components.DeleteDialog DeleteDialogReference { get; set; }
         
         protected List<Reply> models;
 
@@ -63,19 +63,19 @@ namespace ReplyApp.Pages.Replys
         {
             if (ParentKey != "")
             {
-                var articleSet = await ReplyRepositoryAsyncReference.GetArticles<string>(pager.PageIndex, pager.PageSize, "", this.searchQuery, this.sortOrder, ParentKey);
+                var articleSet = await RepositoryReference.GetArticles<string>(pager.PageIndex, pager.PageSize, "", this.searchQuery, this.sortOrder, ParentKey);
                 pager.RecordCount = articleSet.TotalCount;
                 models = articleSet.Items.ToList();
             }
             else if (ParentId != 0)
             {
-                var articleSet = await ReplyRepositoryAsyncReference.GetArticles<int>(pager.PageIndex, pager.PageSize, "", this.searchQuery, this.sortOrder, ParentId);
+                var articleSet = await RepositoryReference.GetArticles<int>(pager.PageIndex, pager.PageSize, "", this.searchQuery, this.sortOrder, ParentId);
                 pager.RecordCount = articleSet.TotalCount;
                 models = articleSet.Items.ToList();
             }
             else
             {
-                var articleSet = await ReplyRepositoryAsyncReference.GetArticles<int>(pager.PageIndex, pager.PageSize, "", this.searchQuery, this.sortOrder, 0);
+                var articleSet = await RepositoryReference.GetArticles<int>(pager.PageIndex, pager.PageSize, "", this.searchQuery, this.sortOrder, 0);
                 pager.RecordCount = articleSet.TotalCount;
                 models = articleSet.Items.ToList();
             }
@@ -138,7 +138,7 @@ namespace ReplyApp.Pages.Replys
                 {
                     // DownCount
                     model.DownCount = model.DownCount + 1;
-                    await ReplyRepositoryAsyncReference.EditAsync(model);
+                    await RepositoryReference.EditAsync(model);
 
                     await FileUtil.SaveAs(JSRuntime, model.FileName, fileBytes); 
                 }
@@ -166,7 +166,7 @@ namespace ReplyApp.Pages.Replys
                 await FileStorageManager.DeleteAsync(model.FileName, "");
             }
 
-            await ReplyRepositoryAsyncReference.DeleteAsync(this.model.Id);
+            await RepositoryReference.DeleteAsync(this.model.Id);
             DeleteDialogReference.Hide();
             this.model = new Reply(); 
             await DisplayData();
@@ -182,7 +182,7 @@ namespace ReplyApp.Pages.Replys
         {
             this.model.IsPinned = (this.model?.IsPinned == true) ? false : true; 
 
-            await ReplyRepositoryAsyncReference.EditAsync(this.model);
+            await RepositoryReference.EditAsync(this.model);
             IsInlineDialogShow = false; 
             this.model = new Reply();
             await DisplayData();
