@@ -41,11 +41,6 @@ namespace ReplyApp.Pages.Replys
 
         protected Reply model = new Reply();
 
-        /// <summary>
-        /// 공지사항으로 올리기 폼을 띄울건지 여부 
-        /// </summary>
-        public bool IsInlineDialogShow { get; set; } = false; 
-
         protected DulPager.DulPagerBase pager = new DulPager.DulPagerBase()
         {
             PageNumber = 1,
@@ -123,12 +118,6 @@ namespace ReplyApp.Pages.Replys
             DeleteDialogReference.Show();
         }
 
-        protected void ToggleBy(Reply model)
-        {
-            this.model = model;
-            IsInlineDialogShow = true; 
-        }
-
         protected async void DownloadBy(Reply model)
         {
             if (!string.IsNullOrEmpty(model.FileName))
@@ -172,21 +161,34 @@ namespace ReplyApp.Pages.Replys
             await DisplayData();
         }
 
+        #region Toggle with Inline Dialog
+        /// <summary>
+        /// 인라인 폼을 띄울건지 여부 
+        /// </summary>
+        public bool IsInlineDialogShow { get; set; } = false;
+
         protected void ToggleClose()
         {
             IsInlineDialogShow = false;
-            this.model = new Reply(); 
+            this.model = new Reply();
         }
 
         protected async void ToggleClick()
         {
-            this.model.IsPinned = (this.model?.IsPinned == true) ? false : true; 
+            this.model.IsPinned = (this.model?.IsPinned == true) ? false : true;
 
             await RepositoryReference.EditAsync(this.model);
-            IsInlineDialogShow = false; 
+            IsInlineDialogShow = false;
             this.model = new Reply();
             await DisplayData();
         }
+
+        protected void ToggleBy(Reply model)
+        {
+            this.model = model;
+            IsInlineDialogShow = true;
+        } 
+        #endregion
 
         #region Search
         private string searchQuery = "";
