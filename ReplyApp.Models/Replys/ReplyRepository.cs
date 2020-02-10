@@ -299,7 +299,8 @@ namespace ReplyApp.Models
             TParentIdentifier parentIdentifier)
         {
             //var items = from m in _context.Replys select m; // 쿼리 구문(Query Syntax)
-            var items = _context.Replys.Select(m => m); // 메서드 구문(Method Syntax)
+            //var items = _context.Replys.Select(m => m); // 메서드 구문(Method Syntax)
+            var items = _context.Replys.AsQueryable(); 
 
             // ParentBy 
             if (parentIdentifier is int parentId && parentId != 0)
