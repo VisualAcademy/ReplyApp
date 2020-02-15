@@ -15,6 +15,7 @@ namespace ReplyApp.Models
         public ReplyAppDbContext()
         {
             // Empty
+            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
         public ReplyAppDbContext(DbContextOptions<ReplyAppDbContext> options)
