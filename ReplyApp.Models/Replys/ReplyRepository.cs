@@ -87,8 +87,9 @@ namespace ReplyApp.Models
         {
             try
             {
-                _context.Replys.Attach(model);
-                _context.Entry(model).State = EntityState.Modified;
+                //_context.Replys.Attach(model);
+                //_context.Entry(model).State = EntityState.Modified;
+                _context.Update(model);
                 return (await _context.SaveChangesAsync() > 0 ? true : false);
             }
             catch (Exception e)
