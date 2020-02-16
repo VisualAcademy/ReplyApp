@@ -15,13 +15,14 @@ namespace ReplyApp.Models
         public ReplyAppDbContext()
         {
             // Empty
-            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            // ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
         public ReplyAppDbContext(DbContextOptions<ReplyAppDbContext> options)
             : base(options)
         {
             // 공식과 같은 코드
+            ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
