@@ -187,23 +187,23 @@ namespace ReplyApp.Models.Tests
             }
             #endregion
 
-            #region [9] AddRange() Method Test
-            //[9] AddRange() Method Test
-            using (var context = new ReplyAppDbContext(options))
-            {
-                var repository = new ReplyRepository(context, factory);
-                var reply1 = new Reply { Name = "답변 1", };
-                var reply2 = new Reply { Name = "답변 2", };
-                var reply3 = new Reply { Name = "답변 3", };
-                var reply4 = new Reply { Name = "답변 4", };
+            //#region [9] AddRange() Method Test
+            ////[9] AddRange() Method Test
+            //using (var context = new ReplyAppDbContext(options))
+            //{
+            //    var repository = new ReplyRepository(context, factory);
+            //    var reply1 = new Reply { Name = "답변 1", };
+            //    var reply2 = new Reply { Name = "답변 2", };
+            //    var reply3 = new Reply { Name = "답변 3", };
+            //    var reply4 = new Reply { Name = "답변 4", };
 
-                context.Replys.AddRange(reply1, reply2, reply3, reply4);
-                context.SaveChanges();
+            //    context.Replys.AddRange(reply1, reply2, reply3, reply4);
+            //    context.SaveChanges();
 
-                var replys = await repository.GetArticles<int>(0, 10, "Name", "답변 ", "", 0);
-                Assert.AreEqual(4, replys.Items.Count());
-            } 
-            #endregion
+            //    var replys = await repository.GetArticles<int>(0, 10, "Name", "답변 ", "", 0);
+            //    Assert.AreEqual(4, replys.Items.Count());
+            //}
+            //#endregion
         }
     }
 }
