@@ -56,8 +56,8 @@ namespace ReplyApp.Models
         //[6][2] 출력
         public async Task<List<Reply>> GetAllAsync()
         {
-            //return await _context.Replys.OrderByDescending(m => m.Id)
-            return await _context.Replys.FromSqlRaw("Select * From dbo.Replys Order By Id Desc") // 학습 목적으로 위 라인을 현재와 같이 
+            //return await _context.Replys.FromSqlRaw<Reply>("Select * From dbo.Replys Order By Id Desc") // 학습 목적으로... InMemory 사용 금지 
+            return await _context.Replys.OrderByDescending(m => m.Id)
                 //.Include(m => m.ReplysComments)
                 .ToListAsync();
         }
