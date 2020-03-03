@@ -4,6 +4,7 @@ CREATE TABLE [dbo].[Replys]
 	[Id] INT NOT NULL PRIMARY KEY Identity(1, 1),		-- Serial Number
 	[ParentId] Int Null,								-- ParentId, AppId, SiteId, ...
 	[ParentKey] NVarChar(255) Null,						-- ParentKey == 부모의 GUID
+
 	[Name] NVarChar(255) Not Null,						-- 작성자
 	[Title] NVarChar(255) Null,							-- 제목
 	[Content] NVarChar(Max) Null,						-- 내용

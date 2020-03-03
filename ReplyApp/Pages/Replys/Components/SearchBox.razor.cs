@@ -35,7 +35,7 @@ namespace ReplyApp.Pages.Replys.Components
         {
             debounceTimer = new Timer();
             debounceTimer.Interval = Debounce;
-            debounceTimer.AutoReset = false;
+            debounceTimer.AutoReset = false; // 딱 한번 실행 
             debounceTimer.Elapsed += SearchHandler;
         }
 
