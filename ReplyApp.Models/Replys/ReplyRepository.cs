@@ -107,6 +107,7 @@ namespace ReplyApp.Models
             try
             {
                 var model = await _context.Replys.FindAsync(id);
+                //_context.Replys.Remove(model);
                 _context.Remove(model);
                 return (await _context.SaveChangesAsync() > 0 ? true : false);
             }
