@@ -8,9 +8,12 @@ namespace ReplyApp.Models
     /// </summary>
     public class ReplyAppDbContext : DbContext
     {
+        // Install-Package Microsoft.EntityFrameworkCore
         // Install-Package Microsoft.EntityFrameworkCore.SqlServer
+        // Install-Package Microsoft.EntityFrameworkCore.Tools
         // Install-Package Microsoft.EntityFrameworkCore.InMemory
         // Install-Package System.Configuration.ConfigurationManager
+        // Install-Package Microsoft.Data.SqlClient
 
         public ReplyAppDbContext()
         {
@@ -22,7 +25,7 @@ namespace ReplyApp.Models
             : base(options)
         {
             // 공식과 같은 코드
-            //ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            // ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
