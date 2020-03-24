@@ -12,7 +12,7 @@ namespace ReplyApp.Models
     public class Reply
     {
         /// <summary>
-        /// Serial Number
+        /// 일련 번호(Serial Number)
         /// </summary>
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
