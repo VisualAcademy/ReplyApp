@@ -83,11 +83,11 @@ namespace ReplyApp
         /// <param name="services"></param>
         private void AddDependencyInjectionContainerForReplyApp(IServiceCollection services)
         {
-            // NoticeAppDbContext.cs Inject: New DbContext Add
+            // ReplyAppDbContext.cs Inject: New DbContext Add
             services.AddEntityFrameworkSqlServer().AddDbContext<ReplyAppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
 
-            // INoticeRepositoryAsync.cs Inject: DI Container에 서비스(리포지토리) 등록 
+            // IReplyRepositoryAsync.cs Inject: DI Container에 서비스(리포지토리) 등록 
             services.AddTransient<IReplyRepository, ReplyRepository>();
         }
 
