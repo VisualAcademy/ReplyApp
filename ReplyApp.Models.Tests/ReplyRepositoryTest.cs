@@ -10,6 +10,7 @@ namespace ReplyApp.Models.Tests
 {
     /// <summary>
     /// [7] Test Class
+    /// Install-Package Microsoft.EntityFrameworkCore.InMemory
     /// </summary>
     [TestClass]
     public class ReplyRepositoryTest
