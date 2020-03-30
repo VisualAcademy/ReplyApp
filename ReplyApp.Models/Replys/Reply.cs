@@ -79,9 +79,9 @@ namespace ReplyApp.Models
 
         #region [2] 자료실 게시판 관련 주요 컬럼
         /// <summary>
-        /// 파일명
+        /// 파일이름
         /// </summary>
-        [Display(Name = "파일")]
+        [Display(Name = "파일이름")]
         public string FileName { get; set; }
 
         /// <summary>
