@@ -292,7 +292,7 @@ namespace ReplyApp.Models
         }
 
         //[6][15] 리스트(페이징, 검색, 정렬)
-        public async Task<ArticleSet<Reply, int>> GetArticles<TParentIdentifier>(
+        public async Task<ArticleSet<Reply, int>> GetArticlesAsync<TParentIdentifier>(
             int pageIndex,
             int pageSize,
             string searchField,

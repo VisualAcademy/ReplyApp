@@ -31,7 +31,7 @@ namespace ReplyApp.Pages.Replys
 
         private async Task DisplayData()
         {
-            var articleSet = await RepositoryReference.GetArticles<int>(pager.PageIndex, pager.PageSize, "", this.searchQuery, this.sortOrder, 0);
+            var articleSet = await RepositoryReference.GetArticlesAsync<int>(pager.PageIndex, pager.PageSize, "", this.searchQuery, this.sortOrder, 0);
             pager.RecordCount = articleSet.TotalCount;
             models = articleSet.Items.ToList();
 

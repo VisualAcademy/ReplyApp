@@ -59,7 +59,7 @@ namespace ReplyApp.Models
             string parentKey);
 
         // 필터링 
-        Task<ArticleSet<T, int>> GetArticles<TParentIdentifier>(
+        Task<ArticleSet<T, int>> GetArticlesAsync<TParentIdentifier>(
             int pageIndex,
             int pageSize,
             string searchField,

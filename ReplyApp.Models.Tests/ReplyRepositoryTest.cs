@@ -180,7 +180,7 @@ namespace ReplyApp.Models.Tests
                 //var articleSet = await repository.GetArticles<int>(0, 10, "", "", "TitleDesc", 0); // 자유게시판, 공지사항
                 //var articleSet = await repository.GetArticles<int>(0, 10, "", "", "Title", 0); // 공지사항, 자유게시판
                 //var articleSet = await repository.GetArticles<int>(0, 10, "", "", "TitleDesc", 1); // 공지사항
-                var articleSet = await repository.GetArticles<string>(0, 10, "", "", "TitleDesc", "1"); // 자, 공
+                var articleSet = await repository.GetArticlesAsync<string>(0, 10, "", "", "TitleDesc", "1"); // 자, 공
                 foreach (var item in articleSet.Items)
                 {
                     Console.WriteLine($"{item.Name} - {item.Title}");
