@@ -43,9 +43,11 @@ namespace ReplyApp.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Replys 테이블의 Created 열은 자동으로 GetDate() 제약 조건을 부여하기 
             modelBuilder.Entity<Reply>().Property(m => m.Created).HasDefaultValueSql("GetDate()");
         }
 
+        //[!] ReplyApp 솔루션 관련 모든 테이블에 대한 참조 
         public DbSet<Reply> Replys { get; set; }
     }
 }
