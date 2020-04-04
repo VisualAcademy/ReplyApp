@@ -9,20 +9,20 @@ using System.Threading.Tasks;
 namespace ReplyApp.Models.Tests
 {
     /// <summary>
-    /// [7] Test Class
-    /// Install-Package Microsoft.EntityFrameworkCore.InMemory
+    /// [7] Test Class: (Arrange -> Act -> Assert) Pattern
+    /// 필요한 NuGet 패키지: Install-Package Microsoft.EntityFrameworkCore.InMemory
     /// </summary>
     [TestClass]
     public class ReplyRepositoryTest
     {
         [TestMethod]
-        public async Task ReplyRepositoryTestAllMethodTest()
+        public async Task ReplyRepositoryAllMethodTest()
         {
             #region [0] DbContextOptions<T> Object Creation and ILoggerFactory Object Creation
             //[0] DbContextOptions<T> Object Creation and ILoggerFactory Object Creation
             var options = new DbContextOptionsBuilder<ReplyAppDbContext>()
                 .UseInMemoryDatabase(databaseName: $"ReplyApp{Guid.NewGuid()}").Options;
-            //.UseSqlServer("server=(localdb)\\mssqllocaldb;database=ReplyApp;integrated security=true;").Options;
+                //.UseSqlServer("server=(localdb)\\mssqllocaldb;database=ReplyApp;integrated security=true;").Options;
 
             var serviceProvider = new ServiceCollection().AddLogging().BuildServiceProvider();
             var factory = serviceProvider.GetService<ILoggerFactory>();
@@ -30,21 +30,24 @@ namespace ReplyApp.Models.Tests
 
             #region [1] AddAsync() Method Test
             //[1] AddAsync() Method Test
+            //[1][1] Repository 클래스를 사용하여 저장
             using (var context = new ReplyAppDbContext(options))
             {
                 context.Database.EnsureCreated(); // 데이터베이스가 만들어져 있는지 확인
 
-                //[A] Arrange
+                //[A] Arrange: 1번 데이터를 아래 항목으로 저장합니다. 
                 var repository = new ReplyRepository(context, factory);
-                var model = new Reply { Name = "[1] 관리자", Title = "공지사항입니다.", Content = "내용입니다.", ParentId = 1, ParentKey = "1" };
+                var model = new Reply { Name = "[1] 관리자", Title = "Q&A입니다.", Content = "내용입니다.", ParentId = 1, ParentKey = "1" };
 
-                //[B] Act
+                //[B] Act: AddAsync() 메서드 테스트
                 await repository.AddAsync(model); // Id: 1
             }
+            //[1][2] DbContext 클래스를 통해서 개수 및 레코드 확인 
             using (var context = new ReplyAppDbContext(options))
             {
-                //[C] Assert
+                //[C] Assert: 현재 총 데이터 개수가 1개인 것과, 1번 데이터의 이름이 "[1] 관리자"인지 확인합니다. 
                 Assert.AreEqual(1, await context.Replys.CountAsync());
+
                 var model = await context.Replys.Where(n => n.Id == 1).SingleOrDefaultAsync();
                 Assert.AreEqual("[1] 관리자", model.Name);
             }
@@ -55,14 +58,15 @@ namespace ReplyApp.Models.Tests
             using (var context = new ReplyAppDbContext(options))
             {
                 // 트랜잭션 관련 코드는 InMemoryDatabase 공급자에서는 지원 X
-                //using (var transaction = context.Database.BeginTransaction()) { transaction.Commit(); }
+                // using (var transaction = context.Database.BeginTransaction()) { transaction.Commit(); }
+
                 //[A] Arrange
                 var repository = new ReplyRepository(context, factory);
-                var model = new Reply { Name = "[2] 홍길동", Title = "공지사항입니다.", Content = "내용입니다." };
+                var model = new Reply { Name = "[2] 홍길동", Title = "Q&A입니다.", Content = "내용입니다." };
 
                 //[B] Act
                 await repository.AddAsync(model); // Id: 2
-                await repository.AddAsync(new Reply { Name = "[3] 백두산", Title = "자유게시판입니다.", ParentId = 3, ParentKey = "1" }); // Id: 3
+                await repository.AddAsync(new Reply { Name = "[3] 백두산", Title = "Q&A입니다.", ParentId = 3, ParentKey = "1" }); // Id: 3
             }
             using (var context = new ReplyAppDbContext(options))
             {
@@ -177,9 +181,9 @@ namespace ReplyApp.Models.Tests
                 //var articleSet = await repository.GetArticles<int>(0, 10, "", "", "", 0); // [3] 백두산, [1] 관리자
                 //var articleSet = await repository.GetArticles<int>(0, 10, "", "두", "", 0); // [3] 백두산
                 //var articleSet = await repository.GetArticles<int>(0, 10, "", "", "Name", 0); // [1] 관리자, [3] 백두산
-                //var articleSet = await repository.GetArticles<int>(0, 10, "", "", "TitleDesc", 0); // 자유게시판, 공지사항
-                //var articleSet = await repository.GetArticles<int>(0, 10, "", "", "Title", 0); // 공지사항, 자유게시판
-                //var articleSet = await repository.GetArticles<int>(0, 10, "", "", "TitleDesc", 1); // 공지사항
+                //var articleSet = await repository.GetArticles<int>(0, 10, "", "", "TitleDesc", 0); // Q&A, Q&A
+                //var articleSet = await repository.GetArticles<int>(0, 10, "", "", "Title", 0); // Q&A, Q&A
+                //var articleSet = await repository.GetArticles<int>(0, 10, "", "", "TitleDesc", 1); // Q&A
                 var articleSet = await repository.GetArticlesAsync<string>(0, 10, "", "", "TitleDesc", "1"); // 자, 공
                 foreach (var item in articleSet.Items)
                 {
