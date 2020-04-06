@@ -11,13 +11,15 @@ namespace ReplyApp.Pages.Replys
     public partial class Create
     {
         [Parameter]
-        public int Id { get; set; } = 0; 
+        public int Id { get; set; } = 0;
 
+        // Reference 접미사 사용해 봄
         [Inject]
-        public IReplyRepository RepositoryReference { get; set; }
+        public IReplyRepository RepositoryReference { get; set; } 
 
+        // Injector 접미사 사용해 봄 
         [Inject]
-        public NavigationManager NavigationManagerReference { get; set; }
+        public NavigationManager NavigationManagerInjector { get; set; }
 
         protected Reply model = new Reply();
 
@@ -83,7 +85,7 @@ namespace ReplyApp.Pages.Replys
                 await RepositoryReference.AddAsync(model);
             }
 
-            NavigationManagerReference.NavigateTo("/Replys");
+            NavigationManagerInjector.NavigateTo("/Replys");
         }
 
         [Inject]
