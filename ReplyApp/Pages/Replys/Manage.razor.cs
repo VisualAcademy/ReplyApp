@@ -75,7 +75,7 @@ namespace ReplyApp.Pages.Replys
                 models = articleSet.Items.ToList();
             }
 
-            StateHasChanged();
+            StateHasChanged(); // Refresh
         }
 
         protected void NameClick(int id)
@@ -173,16 +173,25 @@ namespace ReplyApp.Pages.Replys
             this.model = new Reply();
         }
 
+        /// <summary>
+        /// 토글: Pinned
+        /// </summary>
         protected async void ToggleClick()
         {
             this.model.IsPinned = (this.model?.IsPinned == true) ? false : true;
 
+            // 변경된 내용 업데이트
             await RepositoryReference.EditAsync(this.model);
-            IsInlineDialogShow = false;
-            this.model = new Reply();
-            await DisplayData();
+
+            IsInlineDialogShow = false; // 표시 속성 초기화
+            this.model = new Reply(); // 선택한 모델 초기화 
+
+            await DisplayData(); // 다시 로드
         }
 
+        /// <summary>
+        /// ToggleBy(PinnedBy)
+        /// </summary>
         protected void ToggleBy(Reply model)
         {
             this.model = model;
