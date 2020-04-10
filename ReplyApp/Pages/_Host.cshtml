@@ -50,5 +50,21 @@
     </div>
 
     <script src="_framework/blazor.server.js"></script>
+
+    @*jQuery와 Bootstrap은 참고용으로 삽입*@
+    <script src="/lib/jquery.js"></script>
+    <script src="/lib/dist/js/bootstrap.js"></script>
+
+    <script>
+        // 넘어온 ID를 갖는 모달 창 닫기
+        function closeModal(modalId) {
+            //console.log("삭제");
+            $("#" + modalId).modal('hide');
+        }
+        // 넘어온 ID를 갖는 모달 창 열기
+        function showModal(modalId) {
+            $("#" + modalId).modal('show');
+        }
+    </script>
 </body>
 </html>

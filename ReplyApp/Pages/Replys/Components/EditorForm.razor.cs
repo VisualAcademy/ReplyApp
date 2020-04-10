@@ -51,12 +51,14 @@ namespace ReplyApp.Pages.Replys.Components
 
         /// <summary>
         /// 부모 컴포넌트에게 생성(Create)이 완료되었다고 보고하는 목적으로 부모 컴포넌트에게 알림
+        /// 학습 목적으로 Action 대리자 사용
         /// </summary>
         [Parameter]
         public Action CreateCallback { get; set; }
 
         /// <summary>
         /// 부모 컴포넌트에게 수정(Edit)이 완료되었다고 보고하는 목적으로 부모 컴포넌트에게 알림
+        /// 학습 목적으로 EventCallback 구조체 사용
         /// </summary>
         [Parameter]
         public EventCallback<bool> EditCallback { get; set; }

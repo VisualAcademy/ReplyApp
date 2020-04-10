@@ -103,6 +103,9 @@ namespace ReplyApp.Pages.Replys
             EditorFormReference.Show();
         }
 
+        /// <summary>
+        /// 관리자 전용: 모달 폼으로 선택 항목 수정
+        /// </summary>
         protected void EditBy(Reply model)
         {
             EditorFormTitle = "EDIT";
@@ -112,6 +115,9 @@ namespace ReplyApp.Pages.Replys
             EditorFormReference.Show();
         }
 
+        /// <summary>
+        /// 관리자 전용: 모달 폼으로 선택 항목 삭제
+        /// </summary>
         protected void DeleteBy(Reply model)
         {
             this.model = model;
