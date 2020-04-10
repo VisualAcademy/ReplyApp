@@ -17,7 +17,7 @@ namespace ReplyApp.Pages.Replys
         public IReplyRepository RepositoryReference { get; set; }
 
         [Inject]
-        public NavigationManager NavigationManagerReference { get; set; }
+        public NavigationManager NavigationManagerInjector { get; set; }
 
         protected Reply model = new Reply();
 
@@ -64,7 +64,7 @@ namespace ReplyApp.Pages.Replys
             #endregion
 
             await RepositoryReference.EditAsync(model);
-            NavigationManagerReference.NavigateTo("/Replys");
+            NavigationManagerInjector.NavigateTo("/Replys");
         }
 
         [Inject]

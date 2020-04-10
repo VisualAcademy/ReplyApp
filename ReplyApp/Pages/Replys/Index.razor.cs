@@ -12,7 +12,7 @@ namespace ReplyApp.Pages.Replys
         public IReplyRepository RepositoryReference { get; set; }
 
         [Inject]
-        public NavigationManager NavigationManagerReference { get; set; }
+        public NavigationManager NavigationManagerInjector { get; set; }
 
         protected List<Reply> models;
 
@@ -40,7 +40,7 @@ namespace ReplyApp.Pages.Replys
 
         protected void NameClick(int id)
         {
-            NavigationManagerReference.NavigateTo($"/Replys/Details/{id}");
+            NavigationManagerInjector.NavigateTo($"/Replys/Details/{id}");
         }
 
         protected async void PageIndexChanged(int pageIndex)

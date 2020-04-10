@@ -18,7 +18,7 @@ namespace ReplyApp.Pages.Replys
         public IJSRuntime JSRuntime { get; set; }
 
         [Inject]
-        public NavigationManager NavigationManagerReference { get; set; }
+        public NavigationManager NavigationManagerInjector { get; set; }
 
         protected Reply model = new Reply();
 
@@ -43,7 +43,7 @@ namespace ReplyApp.Pages.Replys
                 }
 
                 await RepositoryReference.DeleteAsync(Id); // 삭제
-                NavigationManagerReference.NavigateTo("/Replys"); // 리스트 페이지로 이동
+                NavigationManagerInjector.NavigateTo("/Replys"); // 리스트 페이지로 이동
             }
             else
             {

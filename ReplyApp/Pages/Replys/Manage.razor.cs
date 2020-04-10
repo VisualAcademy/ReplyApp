@@ -25,7 +25,7 @@ namespace ReplyApp.Pages.Replys
         public IReplyRepository RepositoryReference { get; set; }
 
         [Inject]
-        public NavigationManager NavigationManagerReference { get; set; }
+        public NavigationManager NavigationManagerInjector { get; set; }
 
         /// <summary>
         /// EditorForm에 대한 참조: 모달로 글쓰기 또는 수정하기
@@ -80,7 +80,7 @@ namespace ReplyApp.Pages.Replys
 
         protected void NameClick(int id)
         {
-            NavigationManagerReference.NavigateTo($"/Replys/Details/{id}");
+            NavigationManagerInjector.NavigateTo($"/Replys/Details/{id}");
         }
 
         protected async void PageIndexChanged(int pageIndex)
@@ -224,7 +224,7 @@ namespace ReplyApp.Pages.Replys
         {
             FileUtil.SaveAsExcel(JSRuntime, "/ReplyDownload/ExcelDown");
 
-            NavigationManagerReference.NavigateTo($"/Replys"); // 다운로드 후 현재 페이지 다시 로드
+            NavigationManagerInjector.NavigateTo($"/Replys"); // 다운로드 후 현재 페이지 다시 로드
         }
 
         protected void DownloadExcel()
