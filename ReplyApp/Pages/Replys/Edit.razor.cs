@@ -10,23 +10,36 @@ namespace ReplyApp.Pages.Replys
 {
     public partial class Edit
     {
+        #region Parameters
         [Parameter]
         public int Id { get; set; }
+        #endregion
 
+        #region Injectors
         [Inject]
         public IReplyRepository RepositoryReference { get; set; }
 
         [Inject]
-        public NavigationManager NavigationManagerInjector { get; set; }
+        public NavigationManager NavigationManagerInjector { get; set; } 
+
+        [Inject]
+        public IFileStorageManager FileStorageManagerInjector { get; set; }
+        #endregion
 
         protected Reply model = new Reply();
 
         public string ParentId { get; set; }
 
+        /// <summary>
+        /// 부모(카테고리) 리스트가 저장될 임시 변수
+        /// </summary>
         protected int[] parentIds = { 1, 2, 3 };
 
         protected string content = "";
 
+        /// <summary>
+        /// 페이지 초기화 이벤트 처리기
+        /// </summary>
         protected override async Task OnInitializedAsync()
         {
             model = await RepositoryReference.GetByIdAsync(Id);
@@ -34,6 +47,9 @@ namespace ReplyApp.Pages.Replys
             ParentId = model.ParentId.ToString(); 
         }
 
+        /// <summary>
+        /// 수정 버튼 이벤트 처리기
+        /// </summary>
         protected async void FormSubmit()
         {
             int.TryParse(ParentId, out int parentId);
@@ -52,10 +68,10 @@ namespace ReplyApp.Pages.Replys
                     fileSize = Convert.ToInt32(file.Size);
 
                     // 첨부 파일 삭제 
-                    await FileStorageManager.DeleteAsync(model.FileName, "");
+                    await FileStorageManagerInjector.DeleteAsync(model.FileName, "");
 
                     // 다시 업로드
-                    fileName = await FileStorageManager.UploadAsync(file.Data, file.Name, "", true);
+                    fileName = await FileStorageManagerInjector.UploadAsync(file.Data, file.Name, "", true);
 
                     model.FileName = fileName;
                     model.FileSize = fileSize;
@@ -67,8 +83,6 @@ namespace ReplyApp.Pages.Replys
             NavigationManagerInjector.NavigateTo("/Replys");
         }
 
-        [Inject]
-        public IFileStorageManager FileStorageManager { get; set; }
         private IFileListEntry[] selectedFiles;
         protected void HandleSelection(IFileListEntry[] files)
         {

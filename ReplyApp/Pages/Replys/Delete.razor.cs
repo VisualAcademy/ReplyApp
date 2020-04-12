@@ -8,9 +8,12 @@ namespace ReplyApp.Pages.Replys
 {
     public partial class Delete
     {
+        #region Parameters
         [Parameter]
         public int Id { get; set; }
+        #endregion
 
+        #region Injectors
         [Inject]
         public IReplyRepository RepositoryReference { get; set; }
 
@@ -18,28 +21,41 @@ namespace ReplyApp.Pages.Replys
         public IJSRuntime JSRuntime { get; set; }
 
         [Inject]
-        public NavigationManager NavigationManagerInjector { get; set; }
+        public NavigationManager NavigationManagerInjector { get; set; } 
 
-        protected Reply model = new Reply();
+        [Inject]
+        public IFileStorageManager FileStorageManager { get; set; }
+        #endregion
 
-        protected string content = "";
+        #region Properties
+        public Reply Model { get; set; } = new Reply();
 
+        public string Content { get; set; } = "";
+        #endregion
+
+        #region Event Handlers
+        /// <summary>
+        /// 페이지 초기화 이벤트 처리기
+        /// </summary>
         protected override async Task OnInitializedAsync()
         {
-            model = await RepositoryReference.GetByIdAsync(Id);
-            content = Dul.HtmlUtility.EncodeWithTabAndSpace(model.Content);
+            Model = await RepositoryReference.GetByIdAsync(Id);
+            Content = Dul.HtmlUtility.EncodeWithTabAndSpace(Model.Content);
         }
 
+        /// <summary>
+        /// 삭제 버튼 클릭 이벤트 처리기
+        /// </summary>
         protected async void DeleteClick()
         {
             bool isDelete = await JSRuntime.InvokeAsync<bool>("confirm", $"{Id}번 글을 정말로 삭제하시겠습니까?");
 
             if (isDelete)
             {
-                if (!string.IsNullOrEmpty(model?.FileName))
+                if (!string.IsNullOrEmpty(Model?.FileName))
                 {
                     // 첨부 파일 삭제 
-                    await FileStorageManager.DeleteAsync(model.FileName, "");
+                    await FileStorageManager.DeleteAsync(Model.FileName, "");
                 }
 
                 await RepositoryReference.DeleteAsync(Id); // 삭제
@@ -49,9 +65,7 @@ namespace ReplyApp.Pages.Replys
             {
                 await JSRuntime.InvokeAsync<object>("alert", "취소되었습니다.");
             }
-        }
-
-        [Inject]
-        public IFileStorageManager FileStorageManager { get; set; }
+        } 
+        #endregion
     }
 }

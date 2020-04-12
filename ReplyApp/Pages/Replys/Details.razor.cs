@@ -6,20 +6,31 @@ namespace ReplyApp.Pages.Replys
 {
     public partial class Details
     {
+        #region Parameters
         [Parameter]
         public int Id { get; set; }
+        #endregion
 
+        #region Injectors
         [Inject]
         public IReplyRepository RepositoryReference { get; set; }
+        #endregion
 
-        protected Reply model = new Reply();
+        #region Properties
+        public Reply Model { get; set; } = new Reply();
 
-        protected string content = "";
+        public string Content { get; set; } = ""; 
+        #endregion
 
+        #region Event Handlers
+        /// <summary>
+        /// 페이지 초기화 이벤트 처리기
+        /// </summary>
         protected override async Task OnInitializedAsync()
         {
-            model = await RepositoryReference.GetByIdAsync(Id);
-            content = Dul.HtmlUtility.EncodeWithTabAndSpace(model.Content);
-        }
+            Model = await RepositoryReference.GetByIdAsync(Id);
+            Content = Dul.HtmlUtility.EncodeWithTabAndSpace(Model.Content);
+        } 
+        #endregion
     }
 }
