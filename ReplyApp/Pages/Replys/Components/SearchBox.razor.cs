@@ -31,6 +31,9 @@ namespace ReplyApp.Pages.Replys.Components
         [Parameter]
         public int Debounce { get; set; } = 300;
 
+        /// <summary>
+        /// 페이지 초기화 이벤트 처리기
+        /// </summary>
         protected override void OnInitialized()
         {
             debounceTimer = new Timer();

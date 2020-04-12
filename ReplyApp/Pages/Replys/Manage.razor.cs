@@ -15,17 +15,27 @@ namespace ReplyApp.Pages.Replys
 {
     public partial class Manage
     {
+        #region Parameters
         [Parameter]
         public int ParentId { get; set; } = 0;
 
         [Parameter]
         public string ParentKey { get; set; } = "";
+        #endregion
+
+        #region Injectors
+        [Inject]
+        public NavigationManager NavigationManagerInjector { get; set; }
+
+        [Inject]
+        public IJSRuntime JSRuntimeInjector { get; set; }
 
         [Inject]
         public IReplyRepository RepositoryReference { get; set; }
 
         [Inject]
-        public NavigationManager NavigationManagerInjector { get; set; }
+        public IFileStorageManager FileStorageManagerReference { get; set; }
+        #endregion
 
         /// <summary>
         /// EditorForm에 대한 참조: 모달로 글쓰기 또는 수정하기
@@ -49,6 +59,9 @@ namespace ReplyApp.Pages.Replys
             PagerButtonCount = 5
         };
 
+        /// <summary>
+        /// 페이지 초기화 이벤트 처리기
+        /// </summary>
         protected override async Task OnInitializedAsync()
         {
             await DisplayData();
@@ -128,23 +141,19 @@ namespace ReplyApp.Pages.Replys
         {
             if (!string.IsNullOrEmpty(model.FileName))
             {
-                byte[] fileBytes = await FileStorageManager.DownloadAsync(model.FileName, "");
+                byte[] fileBytes = await FileStorageManagerReference.DownloadAsync(model.FileName, "");
                 if (fileBytes != null)
                 {
                     // DownCount
                     model.DownCount = model.DownCount + 1;
                     await RepositoryReference.EditAsync(model);
 
-                    await FileUtil.SaveAs(JSRuntime, model.FileName, fileBytes); 
+                    await FileUtil.SaveAs(JSRuntimeInjector, model.FileName, fileBytes); 
                 }
             }
         }
 
-        [Inject]
-        public IJSRuntime JSRuntime { get; set; }
 
-        [Inject]
-        public IFileStorageManager FileStorageManager { get; set; }
 
         protected async void CreateOrEdit()
         {
@@ -158,7 +167,7 @@ namespace ReplyApp.Pages.Replys
             if (!string.IsNullOrEmpty(model?.FileName))
             {
                 // 첨부 파일 삭제 
-                await FileStorageManager.DeleteAsync(model.FileName, "");
+                await FileStorageManagerReference.DeleteAsync(model.FileName, "");
             }
 
             await RepositoryReference.DeleteAsync(this.model.Id);
@@ -222,7 +231,7 @@ namespace ReplyApp.Pages.Replys
 
         protected void DownloadExcelWithWebApi()
         {
-            FileUtil.SaveAsExcel(JSRuntime, "/ReplyDownload/ExcelDown");
+            FileUtil.SaveAsExcel(JSRuntimeInjector, "/ReplyDownload/ExcelDown");
 
             NavigationManagerInjector.NavigateTo($"/Replys"); // 다운로드 후 현재 페이지 다시 로드
         }
@@ -254,7 +263,7 @@ namespace ReplyApp.Pages.Replys
                 header.Style.Font.Color.SetColor(Color.White);
                 header.Style.Fill.BackgroundColor.SetColor(Color.DarkBlue);
 
-                FileUtil.SaveAs(JSRuntime, $"{DateTime.Now.ToString("yyyyMMddhhmmss")}_Replys.xlsx", package.GetAsByteArray());
+                FileUtil.SaveAs(JSRuntimeInjector, $"{DateTime.Now.ToString("yyyyMMddhhmmss")}_Replys.xlsx", package.GetAsByteArray());
             }
         }
 

@@ -15,16 +15,16 @@ namespace ReplyApp.Pages.Replys
 
         #region Injectors
         [Inject]
-        public IReplyRepository RepositoryReference { get; set; }
-
-        [Inject]
-        public IJSRuntime JSRuntime { get; set; }
+        public IJSRuntime JSRuntimeInjector { get; set; }
 
         [Inject]
         public NavigationManager NavigationManagerInjector { get; set; } 
 
         [Inject]
-        public IFileStorageManager FileStorageManager { get; set; }
+        public IReplyRepository RepositoryReference { get; set; }
+
+        [Inject]
+        public IFileStorageManager FileStorageManagerReference { get; set; }
         #endregion
 
         #region Properties
@@ -48,14 +48,14 @@ namespace ReplyApp.Pages.Replys
         /// </summary>
         protected async void DeleteClick()
         {
-            bool isDelete = await JSRuntime.InvokeAsync<bool>("confirm", $"{Id}번 글을 정말로 삭제하시겠습니까?");
+            bool isDelete = await JSRuntimeInjector.InvokeAsync<bool>("confirm", $"{Id}번 글을 정말로 삭제하시겠습니까?");
 
             if (isDelete)
             {
                 if (!string.IsNullOrEmpty(Model?.FileName))
                 {
                     // 첨부 파일 삭제 
-                    await FileStorageManager.DeleteAsync(Model.FileName, "");
+                    await FileStorageManagerReference.DeleteAsync(Model.FileName, "");
                 }
 
                 await RepositoryReference.DeleteAsync(Id); // 삭제
@@ -63,7 +63,7 @@ namespace ReplyApp.Pages.Replys
             }
             else
             {
-                await JSRuntime.InvokeAsync<object>("alert", "취소되었습니다.");
+                await JSRuntimeInjector.InvokeAsync<object>("alert", "취소되었습니다.");
             }
         } 
         #endregion

@@ -15,6 +15,11 @@ namespace ReplyApp.Pages.Replys
         /// 첨부 파일 리스트 보관
         /// </summary>
         private IFileListEntry[] selectedFiles; 
+
+        /// <summary>
+        /// 부모(카테고리) 리스트가 저장될 임시 변수
+        /// </summary>
+        protected int[] parentIds = { 1, 2, 3 };
         #endregion
 
         #region Parameters
@@ -35,19 +40,18 @@ namespace ReplyApp.Pages.Replys
         public IFileStorageManager FileStorageManagerInjector { get; set; }
         #endregion
 
-        protected Reply model = new Reply();
+        #region Properties
+        public Reply Model { get; set; } = new Reply();
 
-        public string ParentId { get; set; }
+        public string Content { get; set; } = "";
 
-        /// <summary>
-        /// 부모(카테고리) 리스트가 저장될 임시 변수
-        /// </summary>
-        protected int[] parentIds = { 1, 2, 3 };
+        public string ParentId { get; set; } = "";
 
         // 부모 글의 Id를 임시 보관
         public int ParentRef { get; set; } = 0;
         public int ParentStep { get; set; } = 0;
         public int ParentRefOrder { get; set; } = 0;
+        #endregion
 
         #region Event Handlers
         /// <summary>
@@ -58,15 +62,15 @@ namespace ReplyApp.Pages.Replys
             if (Id != 0)
             {
                 // 기존 글의 데이터를 읽어오기 
-                model = await RepositoryReference.GetByIdAsync(Id);
-                model.Id = 0;
-                model.Name = "";
-                model.Title = "Re: " + model.Title;
-                model.Content = "\r\n====\r\n" + model.Content;
+                Model = await RepositoryReference.GetByIdAsync(Id);
+                Model.Id = 0;
+                Model.Name = "";
+                Model.Title = "Re: " + Model.Title;
+                Model.Content = "\r\n====\r\n" + Model.Content;
 
-                ParentRef = (int)model.Ref;
-                ParentStep = (int)model.Step;
-                ParentRefOrder = (int)model.RefOrder;
+                ParentRef = (int)Model.Ref;
+                ParentStep = (int)Model.Step;
+                ParentRefOrder = (int)Model.RefOrder;
             }
         }
 
@@ -75,8 +79,8 @@ namespace ReplyApp.Pages.Replys
         /// </summary>
         protected async void FormSubmit()
         {
-            int.TryParse(ParentId, out int parentId);
-            model.ParentId = parentId;
+            int.TryParse(ParentId, out int parentId); // 드롭다운 선택 값을 정수형으로 변환
+            Model.ParentId = parentId; // 선택한 ParentId 값 가져오기 
 
             #region 파일 업로드 관련 추가 코드 영역
             if (selectedFiles != null && selectedFiles.Length > 0)
@@ -92,8 +96,8 @@ namespace ReplyApp.Pages.Replys
 
                     fileName = await FileStorageManagerInjector.UploadAsync(file.Data, file.Name, "", true);
 
-                    model.FileName = fileName;
-                    model.FileSize = fileSize;
+                    Model.FileName = fileName;
+                    Model.FileSize = fileSize;
                 }
             }
             #endregion
@@ -101,12 +105,12 @@ namespace ReplyApp.Pages.Replys
             if (Id != 0)
             {
                 // 답변 글이라면,
-                await RepositoryReference.AddAsync(model, ParentRef, ParentStep, ParentRefOrder);
+                await RepositoryReference.AddAsync(Model, ParentRef, ParentStep, ParentRefOrder);
             }
             else
             {
                 // 일반 작성 글이라면,
-                await RepositoryReference.AddAsync(model);
+                await RepositoryReference.AddAsync(Model);
             }
 
             NavigationManagerInjector.NavigateTo("/Replys");

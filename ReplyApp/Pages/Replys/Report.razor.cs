@@ -20,6 +20,9 @@ namespace ReplyApp.Pages.Replys
         private BarConfig _barChartConfig;
         private BarDataset<DoubleWrapper> _barDataSet;
 
+        /// <summary>
+        /// 페이지 초기화 이벤트 처리기
+        /// </summary>
         protected override async Task OnInitializedAsync()
         {
             _barChartConfig = new BarConfig

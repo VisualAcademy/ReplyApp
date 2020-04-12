@@ -12,11 +12,23 @@ namespace ReplyApp.Pages.Replys
 {
     public partial class Import
     {
+        #region Fields
+        /// <summary>
+        /// 첨부 파일 리스트 보관
+        /// </summary>
+        private IFileListEntry[] selectedFiles;
+        #endregion
+
+        #region Injectors
         [Inject]
         public IReplyRepository RepositoryReference { get; set; }
 
         [Inject]
-        public NavigationManager NavigationManagerReference { get; set; }
+        public NavigationManager NavigationManagerInjector { get; set; }
+
+        [Inject]
+        public IFileStorageManager FileStorageManagerReference { get; set; } 
+        #endregion
 
         protected Reply model = new Reply();
 
@@ -24,6 +36,9 @@ namespace ReplyApp.Pages.Replys
 
         protected int[] parentIds = { 1, 2, 3 };
 
+        /// <summary>
+        /// 파일 업로드 버튼 클릭 이벤트 처리기
+        /// </summary>
         protected async void FormSubmit()
         {
             int.TryParse(ParentId, out int parentId);
@@ -41,7 +56,7 @@ namespace ReplyApp.Pages.Replys
                     fileName = file.Name;
                     fileSize = Convert.ToInt32(file.Size);
 
-                    fileName = await FileStorageManager.UploadAsync(file.Data, file.Name, "", true);
+                    fileName = await FileStorageManagerReference.UploadAsync(file.Data, file.Name, "", true);
 
                     model.FileName = fileName;
                     model.FileSize = fileSize;
@@ -56,13 +71,11 @@ namespace ReplyApp.Pages.Replys
                 await RepositoryReference.AddAsync(m);
             }
 
-            NavigationManagerReference.NavigateTo("/Replys");
+            NavigationManagerInjector.NavigateTo("/Replys");
         }
 
         public List<Reply> Models { get; set; } = new List<Reply>(); 
-        [Inject]
-        public IFileStorageManager FileStorageManager { get; set; }
-        private IFileListEntry[] selectedFiles;
+
         protected async void HandleSelection(IFileListEntry[] files)
         {
             this.selectedFiles = files;
