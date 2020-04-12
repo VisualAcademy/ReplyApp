@@ -106,15 +106,25 @@ namespace ReplyApp.Pages.Replys
             StateHasChanged();
         }
 
-        public string EditorFormTitle { get; set; } = "CREATE";
+        #region Properties
+        /// <summary>
+        /// 글쓰기 또는 수정하기 폼의 제목에 전달할 문자열(태그 포함 가능)
+        /// </summary>
+        public string EditorFormTitle { get; set; } = "CREATE"; 
+        #endregion
 
+        #region Event Handlers
+        /// <summary>
+        /// 글쓰기 모달 폼 띄우기 
+        /// </summary>
         protected void ShowEditorForm()
         {
             EditorFormTitle = "CREATE";
             this.model = new Reply();
             this.model.ParentKey = ParentKey; // 
             EditorFormReference.Show();
-        }
+        } 
+        #endregion
 
         /// <summary>
         /// 관리자 전용: 모달 폼으로 선택 항목 수정
