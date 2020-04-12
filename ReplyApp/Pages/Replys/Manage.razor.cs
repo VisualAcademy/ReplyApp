@@ -120,9 +120,9 @@ namespace ReplyApp.Pages.Replys
         protected void ShowEditorForm()
         {
             EditorFormTitle = "CREATE";
-            this.model = new Reply();
+            this.model = new Reply(); // 모델 초기화
             this.model.ParentKey = ParentKey; // 
-            EditorFormReference.Show();
+            EditorFormReference.Show(); 
         } 
         #endregion
 
@@ -132,7 +132,7 @@ namespace ReplyApp.Pages.Replys
         protected void EditBy(Reply model)
         {
             EditorFormTitle = "EDIT";
-            this.model = new Reply();
+            this.model = new Reply(); // 모델 초기화
             this.model = model;
             this.model.ParentKey = ParentKey; // 
             EditorFormReference.Show();
@@ -163,8 +163,9 @@ namespace ReplyApp.Pages.Replys
             }
         }
 
-
-
+        /// <summary>
+        /// 모델 초기화 및 모달 폼 닫기
+        /// </summary>
         protected async void CreateOrEdit()
         {
             EditorFormReference.Hide();
