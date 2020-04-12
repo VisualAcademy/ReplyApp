@@ -33,7 +33,7 @@ namespace ReplyApp.Pages.Replys
         public string Content { get; set; } = "";
         #endregion
 
-        #region Event Handlers
+        #region Lifecycle Methods
         /// <summary>
         /// 페이지 초기화 이벤트 처리기
         /// </summary>
@@ -41,7 +41,10 @@ namespace ReplyApp.Pages.Replys
         {
             Model = await RepositoryReference.GetByIdAsync(Id);
             Content = Dul.HtmlUtility.EncodeWithTabAndSpace(Model.Content);
-        }
+        } 
+        #endregion
+
+        #region Event Handlers
 
         /// <summary>
         /// 삭제 버튼 클릭 이벤트 처리기

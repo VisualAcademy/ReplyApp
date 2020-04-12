@@ -24,13 +24,15 @@ namespace ReplyApp.Pages.Replys
             PagerButtonCount = 5
         };
 
+        #region Lifecycle Methods
         /// <summary>
         /// 페이지 초기화 이벤트 처리기
         /// </summary>
         protected override async Task OnInitializedAsync()
         {
             await DisplayData();
-        }
+        } 
+        #endregion
 
         private async Task DisplayData()
         {

@@ -20,6 +20,7 @@ namespace ReplyApp.Pages.Replys
         private BarConfig _barChartConfig;
         private BarDataset<DoubleWrapper> _barDataSet;
 
+        #region Lifecycle Methods
         /// <summary>
         /// 페이지 초기화 이벤트 처리기
         /// </summary>
@@ -77,7 +78,7 @@ namespace ReplyApp.Pages.Replys
             var sortedList = await RepositoryReference.GetMonthlyCreateCountAsync();
             for (int i = 1; i <= 12; i++)
             {
-                values.Add(sortedList[i]);                
+                values.Add(sortedList[i]);
             }
 
             _barChartConfig.Data.Labels.AddRange(labels.ToArray());
@@ -94,6 +95,7 @@ namespace ReplyApp.Pages.Replys
 
             _barDataSet.AddRange(values.Wrap());
             _barChartConfig.Data.Datasets.Add(_barDataSet);
-        }
+        } 
+        #endregion
     }
 }

@@ -19,10 +19,10 @@ namespace ReplyApp.Pages.Replys
         #region Properties
         public Reply Model { get; set; } = new Reply();
 
-        public string Content { get; set; } = ""; 
+        public string Content { get; set; } = "";
         #endregion
 
-        #region Event Handlers
+        #region Lifecycle Methods
         /// <summary>
         /// 페이지 초기화 이벤트 처리기
         /// </summary>

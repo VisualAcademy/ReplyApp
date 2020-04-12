@@ -37,6 +37,13 @@ namespace ReplyApp.Pages.Replys
         public IFileStorageManager FileStorageManagerReference { get; set; }
         #endregion
 
+        #region Properties
+        /// <summary>
+        /// 글쓰기 또는 수정하기 폼의 제목에 전달할 문자열(태그 포함 가능)
+        /// </summary>
+        public string EditorFormTitle { get; set; } = "CREATE";
+        #endregion
+
         /// <summary>
         /// EditorForm에 대한 참조: 모달로 글쓰기 또는 수정하기
         /// </summary>
@@ -59,13 +66,15 @@ namespace ReplyApp.Pages.Replys
             PagerButtonCount = 5
         };
 
+        #region Lifecycle Methods
         /// <summary>
         /// 페이지 초기화 이벤트 처리기
         /// </summary>
         protected override async Task OnInitializedAsync()
         {
             await DisplayData();
-        }
+        } 
+        #endregion
 
         private async Task DisplayData()
         {
@@ -106,12 +115,6 @@ namespace ReplyApp.Pages.Replys
             StateHasChanged();
         }
 
-        #region Properties
-        /// <summary>
-        /// 글쓰기 또는 수정하기 폼의 제목에 전달할 문자열(태그 포함 가능)
-        /// </summary>
-        public string EditorFormTitle { get; set; } = "CREATE"; 
-        #endregion
 
         #region Event Handlers
         /// <summary>
@@ -124,7 +127,6 @@ namespace ReplyApp.Pages.Replys
             this.model.ParentKey = ParentKey; // 
             EditorFormReference.Show(); 
         } 
-        #endregion
 
         /// <summary>
         /// 관리자 전용: 모달 폼으로 선택 항목 수정
@@ -146,6 +148,7 @@ namespace ReplyApp.Pages.Replys
             this.model = model;
             DeleteDialogReference.Show();
         }
+        #endregion
 
         protected async void DownloadBy(Reply model)
         {
@@ -173,6 +176,9 @@ namespace ReplyApp.Pages.Replys
             await DisplayData();            
         }
 
+        /// <summary>
+        /// 삭제 모달 폼에서 현재 선택한 항목 삭제
+        /// </summary>
         protected async void DeleteClick()
         {
             if (!string.IsNullOrEmpty(model?.FileName))
@@ -183,8 +189,8 @@ namespace ReplyApp.Pages.Replys
 
             await RepositoryReference.DeleteAsync(this.model.Id);
             DeleteDialogReference.Hide();
-            this.model = new Reply(); 
-            await DisplayData();
+            this.model = new Reply(); // 선택했던 모델 초기화
+            await DisplayData(); // 다시 로드
         }
 
         #region Toggle with Inline Dialog

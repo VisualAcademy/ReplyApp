@@ -53,7 +53,7 @@ namespace ReplyApp.Pages.Replys
         public int ParentRefOrder { get; set; } = 0;
         #endregion
 
-        #region Event Handlers
+        #region Lifecycle Methods
         /// <summary>
         /// 페이지 초기화 이벤트 처리기
         /// </summary>
@@ -72,7 +72,10 @@ namespace ReplyApp.Pages.Replys
                 ParentStep = (int)Model.Step;
                 ParentRefOrder = (int)Model.RefOrder;
             }
-        }
+        } 
+        #endregion
+
+        #region Event Handlers
 
         /// <summary>
         /// 저장하기 버튼 클릭 이벤트 처리기

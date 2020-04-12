@@ -45,10 +45,10 @@ namespace ReplyApp.Pages.Replys
         public string ParentId { get; set; } = "";
 
         //protected string Content = "";
-        public string Content { get; set; } = ""; 
+        public string Content { get; set; } = "";
         #endregion
 
-        #region Event Handlers
+        #region Lifecycle Methods
         /// <summary>
         /// 페이지 초기화 이벤트 처리기
         /// </summary>
@@ -57,8 +57,10 @@ namespace ReplyApp.Pages.Replys
             Model = await RepositoryReference.GetByIdAsync(Id);
             Content = Dul.HtmlUtility.EncodeWithTabAndSpace(Model.Content);
             ParentId = Model.ParentId.ToString();
-        }
+        } 
+        #endregion
 
+        #region Event Handlers
         /// <summary>
         /// 수정 버튼 이벤트 처리기
         /// </summary>

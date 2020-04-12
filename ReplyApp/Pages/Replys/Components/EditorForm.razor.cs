@@ -87,7 +87,7 @@ namespace ReplyApp.Pages.Replys.Components
         public IFileStorageManager FileStorageManagerReference { get; set; }
         #endregion
 
-        #region Event Handlers
+        #region Lifecycle Methods
         protected override void OnParametersSet()
         {
             // ParentId가 넘어온 값이 있으면... 즉, 0이 아니면 ParentId 드롭다운 리스트 기본값 선택
@@ -96,7 +96,10 @@ namespace ReplyApp.Pages.Replys.Components
             {
                 parentId = "";
             }
-        } 
+        }  
+        #endregion
+
+        #region Event Handlers
 
         protected async void CreateOrEditClick()
         {

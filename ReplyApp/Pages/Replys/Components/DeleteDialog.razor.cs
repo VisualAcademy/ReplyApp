@@ -7,10 +7,10 @@ namespace ReplyApp.Pages.Replys.Components
     {
         #region Parameters
         /// <summary>
-        /// 부모에서 OnClick 속성에 지정한 이벤트 처리기 실행
+        /// 부모에서 OnClickCallback 속성에 지정한 이벤트 처리기 실행
         /// </summary>
         [Parameter]
-        public EventCallback<MouseEventArgs> OnClick { get; set; }
+        public EventCallback<MouseEventArgs> OnClickCallback { get; set; }
         #endregion
 
         #region Properties

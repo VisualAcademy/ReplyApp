@@ -31,6 +31,7 @@ namespace ReplyApp.Pages.Replys.Components
         [Parameter]
         public int Debounce { get; set; } = 300;
 
+        #region Lifecycle Methods
         /// <summary>
         /// 페이지 초기화 이벤트 처리기
         /// </summary>
@@ -40,7 +41,8 @@ namespace ReplyApp.Pages.Replys.Components
             debounceTimer.Interval = Debounce;
             debounceTimer.AutoReset = false; // 딱 한번 실행 
             debounceTimer.Elapsed += SearchHandler;
-        }
+        } 
+        #endregion
 
         protected void Search()
         {

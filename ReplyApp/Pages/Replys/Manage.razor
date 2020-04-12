@@ -128,11 +128,13 @@
     </div>
 </div>
 
+@*입력 또는 수정 폼 모달 다이얼로그*@
 <ReplyApp.Pages.Replys.Components.EditorForm @ref="EditorFormReference" Model="model" CreateCallback="CreateOrEdit" EditCallback="CreateOrEdit">
     <EditorFormTitle>@EditorFormTitle</EditorFormTitle>
 </ReplyApp.Pages.Replys.Components.EditorForm>
 
-<ReplyApp.Pages.Replys.Components.DeleteDialog @ref="DeleteDialogReference" OnClick="DeleteClick">
+@*삭제 폼 모달 다이얼로그*@
+<ReplyApp.Pages.Replys.Components.DeleteDialog @ref="DeleteDialogReference" OnClickCallback="DeleteClick">
 </ReplyApp.Pages.Replys.Components.DeleteDialog>
 
 @if (IsInlineDialogShow)
