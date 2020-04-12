@@ -241,8 +241,6 @@ namespace ReplyApp.Pages.Replys
             this.searchQuery = query;
 
             await DisplayData();
-
-            StateHasChanged();
         }
         #endregion
 
