@@ -1,18 +1,17 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NoticeApp.Models;
 using ReplyApp.Areas.Identity;
 using ReplyApp.Data;
-using UploadApp.Models;
-using NoticeApp.Models;
 using ReplyApp.Managers;
-using UploadApp.Managers;
 using ReplyApp.Models;
+using UploadApp.Models;
 
 namespace ReplyApp
 {
@@ -46,7 +45,8 @@ namespace ReplyApp
             //services.AddScoped<IFileUploadService, FileUploadService>();
 
             //services.AddTransient<IFileStorageManager, UploadAppBlobStorageManager>(); // Cloud Upload
-            services.AddTransient<IFileStorageManager, UploadAppFileStorageManager>(); // Local Upload
+            //services.AddTransient<IFileStorageManager, UploadAppFileStorageManager>(); // Local Upload
+            services.AddTransient<IFileStorageManager, ReplyAppFileStorageManager>(); // Local Upload
         }
 
         /// <summary>
