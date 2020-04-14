@@ -302,8 +302,9 @@ namespace ReplyApp.Models
         {
             //var items = from m in _context.Replys select m; // 쿼리 구문(Query Syntax)
             //var items = _context.Replys.Select(m => m); // 메서드 구문(Method Syntax)
-            var items = _context.Replys.AsQueryable(); 
+            var items = _context.Replys.AsQueryable();
 
+            #region ParentBy: 특정 부모 키 값(int, string)에 해당하는 리스트인지 확인
             // ParentBy 
             if (parentIdentifier is int parentId && parentId != 0)
             {
@@ -313,7 +314,9 @@ namespace ReplyApp.Models
             {
                 items = items.Where(m => m.ParentKey == parentKey);
             }
+            #endregion
 
+            #region Search Mode: SearchField와 SearchQuery에 해당하는 데이터 검색
             // Search Mode
             if (!string.IsNullOrEmpty(searchQuery))
             {
@@ -329,33 +332,41 @@ namespace ReplyApp.Models
                 }
                 else
                 {
-                    // All
+                    // All: 기타 더 검색이 필요한 컬럼이 있다면 추가 가능
                     items = items.Where(m => m.Name.Contains(searchQuery) || m.Title.Contains(searchQuery));
                 }
-            }
+            } 
+            #endregion
 
+            // 총 레코드 수 계산
             var totalCount = await items.CountAsync();
 
+            #region Sorting: 어떤 열에 대해 정렬(None, Asc, Desc)할 것인지 원하는 문자열로 지정
             // Sorting
             switch (sortOrder)
             {
                 case "Name":
-                    items = items.OrderBy(m => m.Name);
+                    //items = items.OrderBy(m => m.Name);
+                    items = items.OrderBy(m => m.Name).ThenByDescending(m => m.Ref).ThenBy(m => m.RefOrder);
                     break;
                 case "NameDesc":
-                    items = items.OrderByDescending(m => m.Name);
+                    //items = items.OrderByDescending(m => m.Name);
+                    items = items.OrderByDescending(m => m.Name).ThenByDescending(m => m.Ref).ThenBy(m => m.RefOrder);
                     break;
                 case "Title":
-                    items = items.OrderBy(m => m.Title);
+                    //items = items.OrderBy(m => m.Title);
+                    items = items.OrderBy(m => m.Title).ThenByDescending(m => m.Ref).ThenBy(m => m.RefOrder);
                     break;
                 case "TitleDesc":
-                    items = items.OrderByDescending(m => m.Title);
+                    //items = items.OrderByDescending(m => m.Title);
+                    items = items.OrderByDescending(m => m.Title).ThenByDescending(m => m.Ref).ThenBy(m => m.RefOrder);
                     break;
                 default:
                     //items = items.OrderByDescending(m => m.Id); 
                     items = items.OrderByDescending(m => m.Ref).ThenBy(m => m.RefOrder);
                     break;
-            }
+            } 
+            #endregion
 
             // Paging
             items = items.Skip(pageIndex * pageSize).Take(pageSize);

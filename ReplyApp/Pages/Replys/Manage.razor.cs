@@ -263,6 +263,8 @@ namespace ReplyApp.Pages.Replys
                     , true);
 
                 var uploadCol = tableBody.Offset(1, 1, models.Count, 1);
+
+                // 그라데이션 효과 부여
                 var rule = uploadCol.ConditionalFormatting.AddThreeColorScale();
                 rule.LowValue.Color = Color.SkyBlue;
                 rule.MiddleValue.Color = Color.White;
