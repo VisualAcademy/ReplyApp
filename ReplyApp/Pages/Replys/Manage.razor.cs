@@ -244,6 +244,7 @@ namespace ReplyApp.Pages.Replys
         }
         #endregion
 
+        #region Excel
         protected void DownloadExcelWithWebApi()
         {
             FileUtil.SaveAsExcel(JSRuntimeInjector, "/ReplyDownload/ExcelDown");
@@ -280,7 +281,8 @@ namespace ReplyApp.Pages.Replys
 
                 FileUtil.SaveAs(JSRuntimeInjector, $"{DateTime.Now.ToString("yyyyMMddhhmmss")}_Replys.xlsx", package.GetAsByteArray());
             }
-        }
+        } 
+        #endregion
 
         #region Sorting
         private string sortOrder = "";
