@@ -35,9 +35,9 @@ namespace ReplyApp.Models
                 maxRef = (int)max + 1;
             }
 
-            model.Ref = maxRef;
-            model.Step = 0;
-            model.RefOrder = 0;
+            model.Ref = maxRef; // 참조 글(부모 글, 그룹 번호)
+            model.Step = 0; // 들여쓰기(처음 글을 0으로 초기화)
+            model.RefOrder = 0; // 참조(그룹) 순서
             #endregion
 
             try
@@ -377,7 +377,8 @@ namespace ReplyApp.Models
         //[6][16] 답변
         public async Task<Reply> AddAsync(Reply model, int parentRef, int parentStep, int parentOrder)
         {
-            // 비집고 들어갈 자리 
+            #region 답변 관련 기능 추가된 영역
+            // 비집고 들어갈 자리: 부모글 순서보다 큰 글이 있다면(기존 답변 글이 있다면) 해당 글의 순서를 모두 1씩 증가 
             var replys = await _context.Replys.Where(m => m.Ref == parentRef && m.RefOrder > parentOrder).ToListAsync();
             foreach (var item in replys)
             {
@@ -394,8 +395,10 @@ namespace ReplyApp.Models
                 }
             }
 
-            model.Step = parentStep + 1;
-            model.RefOrder = parentOrder + 1;
+            model.Ref = parentRef; // 답변 글의 Ref(그룹)은 부모 글의 Ref를 그대로 저장 
+            model.Step = parentStep + 1; // 어떤 글의 답변 글이기에 들여쓰기 1 증가 
+            model.RefOrder = parentOrder + 1; // 부모글의 바로 다음번 순서로 보여지도록 설정 
+            #endregion
 
             try
             {

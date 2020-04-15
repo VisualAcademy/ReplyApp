@@ -47,7 +47,7 @@ namespace ReplyApp.Pages.Replys
 
         public string ParentId { get; set; } = "";
 
-        // 부모 글의 Id를 임시 보관
+        // 부모 글의 답변형 게시판 계층 정보를 임시 보관
         public int ParentRef { get; set; } = 0;
         public int ParentStep { get; set; } = 0;
         public int ParentRefOrder { get; set; } = 0;
@@ -59,11 +59,12 @@ namespace ReplyApp.Pages.Replys
         /// </summary>
         protected override async Task OnInitializedAsync()
         {
+            // 답변 글쓰기 페이지라면, 기존 데이터 읽어오기 
             if (Id != 0)
             {
                 // 기존 글의 데이터를 읽어오기 
                 Model = await RepositoryReference.GetByIdAsync(Id);
-                Model.Id = 0;
+                Model.Id = 0; // 답변 페이지는 새로운 글로 초기화 
                 Model.Name = "";
                 Model.Title = "Re: " + Model.Title;
                 Model.Content = "\r\n====\r\n" + Model.Content;
@@ -107,12 +108,12 @@ namespace ReplyApp.Pages.Replys
 
             if (Id != 0)
             {
-                // 답변 글이라면,
+                // Reply: 답변 글이라면,
                 await RepositoryReference.AddAsync(Model, ParentRef, ParentStep, ParentRefOrder);
             }
             else
             {
-                // 일반 작성 글이라면,
+                // Create: 일반 작성 글이라면,
                 await RepositoryReference.AddAsync(Model);
             }
 
