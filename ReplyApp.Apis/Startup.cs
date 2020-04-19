@@ -79,7 +79,6 @@ namespace ReplyApp.Apis
             services.AddTransient<INoticeRepositoryAsync, NoticeRepositoryAsync>();
         }
 
-
         /// <summary>
         /// 자료실(UploadApp) 관련 의존성(종속성) 주입 관련 코드만 따로 모아서 관리 
         /// </summary>
