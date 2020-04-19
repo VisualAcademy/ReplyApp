@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NoticeApp.Models;
+using ReplyApp.Models;
 using UploadApp.Models;
 
 namespace ReplyApp.Apis
@@ -49,6 +50,20 @@ namespace ReplyApp.Apis
 
             AddDependencyInjectionContainerForNoticeApp(services);
             AddDependencyInjectionContainerForUploadApp(services);
+            AddDependencyInjectionContainerForReplyApp(services);
+        }
+
+        /// <summary>
+        /// Q&A(ReplyApp) 관련 의존성(종속성) 주입 관련 코드만 따로 모아서 관리 
+        /// </summary>
+        private void AddDependencyInjectionContainerForReplyApp(IServiceCollection services)
+        {
+            // ReplyAppDbContext.cs Inject: New DbContext Add
+            services.AddEntityFrameworkSqlServer().AddDbContext<ReplyAppDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            // IReplyRepositoryAsync.cs Inject: DI Container에 서비스(리포지토리) 등록 
+            services.AddTransient<IReplyRepository, ReplyRepository>();
         }
 
         /// <summary>
