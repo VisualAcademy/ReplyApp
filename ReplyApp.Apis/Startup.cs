@@ -54,7 +54,6 @@ namespace ReplyApp.Apis
         /// <summary>
         /// 공지사항(NoticeApp) 관련 의존성(종속성) 주입 관련 코드만 따로 모아서 관리 
         /// </summary>
-        /// <param name="services"></param>
         private void AddDependencyInjectionContainerForNoticeApp(IServiceCollection services)
         {
             // NoticeAppDbContext.cs Inject: New DbContext Add
@@ -69,14 +68,13 @@ namespace ReplyApp.Apis
         /// <summary>
         /// 자료실(UploadApp) 관련 의존성(종속성) 주입 관련 코드만 따로 모아서 관리 
         /// </summary>
-        /// <param name="services"></param>
         private void AddDependencyInjectionContainerForUploadApp(IServiceCollection services)
         {
             // UploadAppDbContext.cs Inject: New DbContext Add
             services.AddEntityFrameworkSqlServer().AddDbContext<UploadAppDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            // INoticeRepositoryAsync.cs Inject: DI Container에 서비스(리포지토리) 등록 
+            // IUploadRepositoryAsync.cs Inject: DI Container에 서비스(리포지토리) 등록 
             services.AddTransient<IUploadRepository, UploadRepository>();
         }
 

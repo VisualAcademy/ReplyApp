@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace NoticeApp.Apis.Controllers
 {
-    [Produces("application/json")]
+    [ApiController] 
     [Route("api/Notices")]
-    [ApiController]
+    [Produces("application/json")]
     public class NoticesController : ControllerBase
     {
         private readonly INoticeRepositoryAsync _repository;
