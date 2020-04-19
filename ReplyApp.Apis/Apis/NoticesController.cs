@@ -125,7 +125,7 @@ namespace NoticeApp.Apis.Controllers
 
         // 삭제
         // DELETE api/Notices/1
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteAsync(int id)
         {
             try
