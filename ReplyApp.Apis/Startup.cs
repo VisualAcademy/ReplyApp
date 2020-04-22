@@ -31,16 +31,23 @@ namespace ReplyApp.Apis
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
             #region CORS
             //[CORS][1] CORS 사용 등록
             //[CORS][1][1] 기본: 모두 허용
             services.AddCors(options =>
             {
-                options.AddPolicy("AllowAnyOrigin",
-                    builder => builder
-                    .AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader());
+                //[A] [EnableCors] 특성으로 적용 가능 
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+                });
+                //[B] [EnableCors("AllowAnyOrigin")] 형태로 적용 가능
+                options.AddPolicy("AllowAnyOrigin", builder => 
+                    builder
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader());
             });
             //[CORS][1][2] 참고: 모두 허용
             services.AddCors(o => o.AddPolicy("AllowAllPolicy", options =>
