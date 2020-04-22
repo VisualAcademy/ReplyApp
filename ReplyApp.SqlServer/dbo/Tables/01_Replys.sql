@@ -12,7 +12,7 @@ CREATE TABLE [dbo].[Replys]
 	[IsPinned] Bit Null Default(0),						-- 공지글로 올리기, IsActive 
 
 	[CreatedBy] NVarChar(255) Null,						-- 등록자(Creator)
-	[Created] DateTime Default(GetDate()) Null,  		-- 생성일(PostDate), DatePublished
+	[Created] DateTime Default(GetDate()) Null,  		-- 생성일(PostDate), DatePublished, CreatedAt
 	[ModifiedBy] NVarChar(255) Null,					-- 수정자(LastModifiedBy)
 	[Modified] DateTime Null,							-- 수정일(LastModified)
 
