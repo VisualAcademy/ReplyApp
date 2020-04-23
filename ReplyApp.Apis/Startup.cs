@@ -144,11 +144,14 @@ namespace ReplyApp.Apis
                 app.UseDeveloperExceptionPage();
             }
 
+            //[!] HTTP 호출을 HTTPS로 리디렉션
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseCors();
 
             app.UseEndpoints(endpoints =>
             {
