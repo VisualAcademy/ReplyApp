@@ -50,7 +50,7 @@ namespace ReplyApp.Apis.Controllers
         #region 상세
         // 상세
         // GET api/Replys/123
-        [HttpGet("{id:int}", Name = "GetReplyById")]
+        [HttpGet("{id:int}", Name = "GetReplyById")] // Name 속성으로 RouteName 설정
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
             try
@@ -136,7 +136,7 @@ namespace ReplyApp.Apis.Controllers
                 {
                     return CreatedAtRoute("GetReplyById", new { id = model.Id }, model); // Status: 201 Created
                 }
-                else if (DateTime.Now.Second % 5 == 0)
+                else if (DateTime.Now.Second % 2 == 0)
                 {
                     var uri = Url.Link("GetReplyById", new { id = model.Id });
                     return Created(uri, model); // 201 Created
@@ -144,7 +144,7 @@ namespace ReplyApp.Apis.Controllers
                 else
                 {
                     // GetById 액션 이름 사용해서 입력된 데이터 반환 
-                    return CreatedAtAction("GetReplyById", new { id = model.Id }, model);
+                    return CreatedAtAction(nameof(GetById), new { id = model.Id }, model);
                 }
             }
             catch (Exception e)
@@ -258,7 +258,7 @@ namespace ReplyApp.Apis.Controllers
         #region 상세
         // 상세
         // GET api/Replys/123
-        [HttpGet("{id:int}", Name = "GetReplyById")]
+        [HttpGet("{id:int}", Name = "GetReplyById")] // Name 속성으로 RouteName 설정
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
             try
@@ -344,7 +344,7 @@ namespace ReplyApp.Apis.Controllers
                 {
                     return CreatedAtRoute("GetReplyById", new { id = model.Id }, model); // Status: 201 Created
                 }
-                else if (DateTime.Now.Second % 5 == 0)
+                else if (DateTime.Now.Second % 2 == 0)
                 {
                     var uri = Url.Link("GetReplyById", new { id = model.Id });
                     return Created(uri, model); // 201 Created
@@ -352,7 +352,7 @@ namespace ReplyApp.Apis.Controllers
                 else
                 {
                     // GetById 액션 이름 사용해서 입력된 데이터 반환 
-                    return CreatedAtAction("GetReplyById", new { id = model.Id }, model);
+                    return CreatedAtAction(nameof(GetById), new { id = model.Id }, model);
                 }
             }
             catch (Exception e)
