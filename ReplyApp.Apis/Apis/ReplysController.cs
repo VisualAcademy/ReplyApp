@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ReplyApp.Models;
 using System;
@@ -13,6 +14,7 @@ namespace ReplyApp.Apis.Controllers
     //[Route("api/v{v:apiVersion}/Replys")]
     [Route("api/Replys")]
     [Produces("application/json")]
+    [Authorize]
     public class ReplysController : ControllerBase
     {
         private readonly IReplyRepository _repository;

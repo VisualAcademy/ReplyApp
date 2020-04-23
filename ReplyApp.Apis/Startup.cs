@@ -32,6 +32,14 @@ namespace ReplyApp.Apis
         {
             services.AddControllers();
 
+            services.AddAuthentication("Bearer")
+                .AddJwtBearer("Bearer", options =>
+                {
+                    options.Authority = "http://localhost:5050/";
+                    options.RequireHttpsMetadata = false;
+                    options.Audience = "ReplyApp.Apis"; // * 
+                });
+
             #region CORS
             //[CORS][1] CORS 사용 등록
             //[CORS][1][1] 기본: 모두 허용
@@ -148,6 +156,8 @@ namespace ReplyApp.Apis
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication(); // *
 
             app.UseAuthorization();
 
