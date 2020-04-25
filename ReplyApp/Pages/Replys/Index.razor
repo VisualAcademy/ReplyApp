@@ -39,7 +39,7 @@
                             <th @onclick="@(() => SortByName())" style="cursor: pointer;">Name <ReplyApp.Pages.Replys.Components.SortOrderArrow SortColumn="Name" SortOrder="@sortOrder"></ReplyApp.Pages.Replys.Components.SortOrderArrow></th>
                             <th @onclick="@(() => SortByTitle())" style="cursor: pointer;">Title <ReplyApp.Pages.Replys.Components.SortOrderArrow SortColumn="Title" SortOrder="@sortOrder"></ReplyApp.Pages.Replys.Components.SortOrderArrow></th>
                             <th>Created</th>
-                            <th>Action</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     @if (models.Count == 0)
