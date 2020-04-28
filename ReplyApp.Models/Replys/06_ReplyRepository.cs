@@ -47,7 +47,7 @@ namespace ReplyApp.Models
             }
             catch (Exception e)
             {
-                _logger.LogError($"ERROR({nameof(AddAsync)}): {e.Message}");
+                _logger?.LogError($"ERROR({nameof(AddAsync)}): {e.Message}");
             }
 
             return model;
@@ -94,7 +94,7 @@ namespace ReplyApp.Models
             }
             catch (Exception e)
             {
-                _logger.LogError($"ERROR({nameof(EditAsync)}): {e.Message}");
+                _logger?.LogError($"ERROR({nameof(EditAsync)}): {e.Message}");
             }
 
             return false;
@@ -113,7 +113,7 @@ namespace ReplyApp.Models
             }
             catch (Exception e)
             {
-                _logger.LogError($"ERROR({nameof(DeleteAsync)}): {e.Message}");
+                _logger?.LogError($"ERROR({nameof(DeleteAsync)}): {e.Message}");
             }
 
             return false;
@@ -177,7 +177,7 @@ namespace ReplyApp.Models
             }
             catch (Exception e)
             {
-                _logger.LogError($"ERROR({nameof(DeleteAllByParentId)}): {e.Message}");
+                _logger?.LogError($"ERROR({nameof(DeleteAllByParentId)}): {e.Message}");
             }
 
             return false;
@@ -391,7 +391,7 @@ namespace ReplyApp.Models
                 }
                 catch (Exception e)
                 {
-                    _logger.LogError($"ERROR({nameof(AddAsync)}): {e.Message}");
+                    _logger?.LogError($"ERROR({nameof(AddAsync)}): {e.Message}");
                 }
             }
 
@@ -407,7 +407,7 @@ namespace ReplyApp.Models
             }
             catch (Exception e)
             {
-                _logger.LogError($"ERROR({nameof(AddAsync)}): {e.Message}");
+                _logger?.LogError($"ERROR({nameof(AddAsync)}): {e.Message}");
             }
 
             return model;
