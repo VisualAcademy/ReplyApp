@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace ReplyApp.Models
 {
     /// <summary>
-    /// [4] Repository Interface
+    /// [4] Repository Interface, Provider Interface
     /// </summary>
     public interface IReplyRepository : IReplyCrudRepository<Reply>
     {

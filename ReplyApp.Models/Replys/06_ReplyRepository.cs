@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace ReplyApp.Models
 {
     /// <summary>
-    /// [6] Repository Class: ADO.NET or Dapper or Entity Framework Core
+    /// [6] Repository Class: ADO.NET or Dapper or Entity Framework Core, Provider
     /// </summary>
     public class ReplyRepository : IReplyRepository
     {
