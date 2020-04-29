@@ -29,7 +29,8 @@ namespace ReplyApp.Models
             #region Reply 기능 추가
             // 현재테이블의 Ref의 Max값 가져오기
             int maxRef = 1;
-            int? max = _context.Replys.Max(m => m.Ref);
+            //int? max = _context.Replys.Max(m => m.Ref);
+            int? max = await _context.Replys.DefaultIfEmpty().MaxAsync(m => m == null ? 0 : m.Ref);
             if (max.HasValue)
             {
                 maxRef = (int)max + 1;
