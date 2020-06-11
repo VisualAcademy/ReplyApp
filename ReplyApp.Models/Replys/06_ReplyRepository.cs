@@ -10,7 +10,8 @@ using System.Threading.Tasks;
 namespace ReplyApp.Models
 {
     /// <summary>
-    /// [6] Repository Class: ADO.NET or Dapper or Entity Framework Core, Provider
+    /// [6] Repository Class: ADO.NET or Dapper or Entity Framework Core
+    /// ~Repository, ~Provider, ~Data
     /// </summary>
     public class ReplyRepository : IReplyRepository
     {
@@ -23,6 +24,7 @@ namespace ReplyApp.Models
             this._logger = loggerFactory.CreateLogger(nameof(ReplyRepository));
         }
 
+        #region [6][1] 입력: AddAsync
         //[6][1] 입력
         public async Task<Reply> AddAsync(Reply model)
         {
@@ -53,20 +55,24 @@ namespace ReplyApp.Models
 
             return model;
         }
+        #endregion
 
+        #region [6][2] 출력: GetAllAsync
         //[6][2] 출력
         public async Task<List<Reply>> GetAllAsync()
         {
-            //return await _context.Replys.FromSqlRaw<Reply>("Select * From dbo.Replys Order By Id Desc") // 학습 목적으로... InMemory 사용 금지 
+            // 학습 목적으로... InMemory 데이터베이스에선 사용 금지 
+            //return await _context.Replys.FromSqlRaw<Reply>("Select * From dbo.Replys Order By Id Desc") 
             return await _context.Replys.OrderByDescending(m => m.Id)
                 //.Include(m => m.ReplysComments)
                 .ToListAsync();
         }
+        #endregion
 
+        #region //[6][3] 상세: GetByIdAsync
         //[6][3] 상세
         public async Task<Reply> GetByIdAsync(int id)
         {
-
             var model = await _context.Replys
                 //.Include(m => m.ReplysComments)
                 .SingleOrDefaultAsync(m => m.Id == id);
@@ -77,12 +83,14 @@ namespace ReplyApp.Models
                 model.ReadCount = model.ReadCount + 1;
                 _context.Replys.Attach(model);
                 _context.Entry(model).State = EntityState.Modified;
-                _context.SaveChanges(); 
+                _context.SaveChanges();
             }
 
-            return model; 
+            return model;
         }
+        #endregion
 
+        #region //[6][4] 수정: UpdateAsync
         //[6][4] 수정
         public async Task<bool> EditAsync(Reply model)
         {
@@ -100,7 +108,9 @@ namespace ReplyApp.Models
 
             return false;
         }
+        #endregion
 
+        #region //[6][5] 삭제: DeleteAsync
         //[6][5] 삭제
         public async Task<bool> DeleteAsync(int id)
         {
@@ -118,7 +128,8 @@ namespace ReplyApp.Models
             }
 
             return false;
-        }
+        } 
+        #endregion
 
         //[6][6] 페이징
         public async Task<PagingResult<Reply>> GetAllAsync(int pageIndex, int pageSize)
