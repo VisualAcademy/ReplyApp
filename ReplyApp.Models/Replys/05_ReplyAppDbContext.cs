@@ -8,12 +8,12 @@ namespace ReplyApp.Models
     /// </summary>
     public class ReplyAppDbContext : DbContext
     {
-        // Install-Package Microsoft.EntityFrameworkCore
-        // Install-Package Microsoft.EntityFrameworkCore.SqlServer
-        // Install-Package Microsoft.EntityFrameworkCore.Tools
-        // Install-Package Microsoft.EntityFrameworkCore.InMemory
-        // Install-Package System.Configuration.ConfigurationManager
-        // Install-Package Microsoft.Data.SqlClient
+        // PM> Install-Package Microsoft.EntityFrameworkCore
+        // PM> Install-Package Microsoft.EntityFrameworkCore.SqlServer
+        // PM> Install-Package Microsoft.EntityFrameworkCore.Tools
+        // PM> Install-Package Microsoft.EntityFrameworkCore.InMemory
+        // PM> Install-Package System.Configuration.ConfigurationManager
+        // PM> Install-Package Microsoft.Data.SqlClient
 
         public ReplyAppDbContext()
         {
