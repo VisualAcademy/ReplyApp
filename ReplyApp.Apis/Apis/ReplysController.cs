@@ -12,7 +12,7 @@ namespace ReplyApp.Apis.Controllers
     [ApiController]
     //[Route("api/Replys")]
     //[Route("api/v{v:apiVersion}/Replys")]
-    [Route("api/Replys")]
+    [Route("api/[controller]")] // [Route("api/Replys")]
     [Produces("application/json")]
     [Authorize]
     public class ReplysController : ControllerBase
@@ -29,7 +29,7 @@ namespace ReplyApp.Apis.Controllers
         #region 출력
         // 출력
         // GET api/Replys
-        [HttpGet]
+        [HttpGet] // [HttpGet("[action]")]
         public async Task<IActionResult> GetAll()
         {
             try
