@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using IdentityModel.Client;
+﻿using IdentityModel.Client;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Net.Http;
 
 namespace ReplyApp.Apis.Tests
 {
@@ -42,7 +38,7 @@ namespace ReplyApp.Apis.Tests
 
                     var tokenResponse = await client.RequestClientCredentialsTokenAsync(
                         new ClientCredentialsTokenRequest
-                        { 
+                        {
                             Address = discoveryDocument.TokenEndpoint,
                             ClientId = "ReplyApp.Models.Tests",
                             ClientSecret = "ReplyApp.Apis",
