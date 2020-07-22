@@ -90,6 +90,8 @@ namespace ReplyApp.Apis.Controllers
                     return NotFound($"아무런 데이터가 없습니다.");
                 }
 
+                var ʘ‿ʘ = resultSet.Records; // 재미를 위해서 
+
                 // 응답 헤더에 총 레코드 수를 담아서 출력
                 Response.Headers.Add("X-TotalRecordCount", resultSet.TotalRecords.ToString());
                 Response.Headers.Add("Access-Control-Expose-Headers", "X-TotalRecordCount");
@@ -98,7 +100,7 @@ namespace ReplyApp.Apis.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError(e.Message);
+                _logger?.LogError($"ERROR({nameof(GetAll)}): {e.Message}");
                 return BadRequest();
             }
         }
