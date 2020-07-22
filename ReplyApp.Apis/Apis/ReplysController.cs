@@ -90,13 +90,12 @@ namespace ReplyApp.Apis.Controllers
                     return NotFound($"아무런 데이터가 없습니다.");
                 }
 
-                var ʘ‿ʘ = resultSet.Records; // 재미를 위해서 
-
                 // 응답 헤더에 총 레코드 수를 담아서 출력
                 Response.Headers.Add("X-TotalRecordCount", resultSet.TotalRecords.ToString());
                 Response.Headers.Add("Access-Control-Expose-Headers", "X-TotalRecordCount");
 
                 //return Ok(resultSet.Records);
+                var ʘ‿ʘ = resultSet.Records; // 재미를 위해서 
                 return Ok(ʘ‿ʘ); // Look of Approval
             }
             catch (Exception ಠ_ಠ) // Look of Disapproval
