@@ -122,9 +122,9 @@ namespace ReplyApp.Models
                 _context.Remove(model);
                 return (await _context.SaveChangesAsync() > 0 ? true : false);
             }
-            catch (Exception e)
+            catch (Exception ಠ_ಠ)
             {
-                _logger?.LogError($"ERROR({nameof(DeleteAsync)}): {e.Message}");
+                _logger?.LogError($"ERROR({nameof(DeleteAsync)}): {ಠ_ಠ.Message}");
             }
 
             return false;
