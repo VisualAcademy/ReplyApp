@@ -96,11 +96,12 @@ namespace ReplyApp.Apis.Controllers
                 Response.Headers.Add("X-TotalRecordCount", resultSet.TotalRecords.ToString());
                 Response.Headers.Add("Access-Control-Expose-Headers", "X-TotalRecordCount");
 
-                return Ok(resultSet.Records);
+                //return Ok(resultSet.Records);
+                return Ok(ʘ‿ʘ); // Look of Approval
             }
-            catch (Exception e)
+            catch (Exception ಠ_ಠ) // Look of Disapproval
             {
-                _logger?.LogError($"ERROR({nameof(GetAll)}): {e.Message}");
+                _logger?.LogError($"ERROR({nameof(GetAll)}): {ಠ_ಠ.Message}");
                 return BadRequest();
             }
         }
