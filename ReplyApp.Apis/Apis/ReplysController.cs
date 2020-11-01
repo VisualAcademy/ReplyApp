@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 namespace ReplyApp.Apis.Controllers
 {
     [ApiVersion("1.0")]
-    [ApiController]
+    [ApiController] // @RestController 
     //[Route("api/Replys")]
     //[Route("api/v{v:apiVersion}/Replys")]
-    [Route("api/[controller]")] // [Route("api/Replys")]
+    [Route("api/[controller]")] // [Route("api/Replys")] // @RequestMapping
     [Produces("application/json")]
     [Authorize]
     public class ReplysController : ControllerBase
@@ -29,7 +29,7 @@ namespace ReplyApp.Apis.Controllers
         #region 출력
         // 출력
         // GET api/Replys
-        [HttpGet] // [HttpGet("[action]")]
+        [HttpGet] // [HttpGet("[action]")] // @GetMapping
         public async Task<IActionResult> GetAll()
         {
             try
