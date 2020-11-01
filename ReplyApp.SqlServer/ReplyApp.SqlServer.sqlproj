@@ -62,7 +62,7 @@
   <ItemGroup>
     <Build Include="dbo\Tables\Notices.sql" />
     <Build Include="dbo\Tables\Uploads.sql" />
-    <Build Include="dbo\Tables\01_Replys.sql" />
+    <Build Include="dbo\Tables\00_Replys.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ReplyApp.SqlServer.publish.xml" />

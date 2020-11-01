@@ -1,16 +1,14 @@
-﻿// PM> Install-Package System.ComponentModel.Annotations
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ReplyApp.Models
 {
     /// <summary>
-    /// [2] Model Class: Reply 모델 클래스 == Replys 테이블과 일대일로 매핑
-    /// Reply, ReplyModel, ReplyViewModel, ReplyBase, ReplyDto, ReplyEntity, ReplyObject, ...
+    /// [!] 기본 클래스: 공통 속성들을 모두 모아 놓은 모델 클래스
+    /// MemoBase, ArticleBase, PostBase, EntryBase, ...
     /// </summary>
-    [Table("Replys")]
-    public class Reply
+    public class ReplyBase
     {
         /// <summary>
         /// 일련 번호(Serial Number)
@@ -37,15 +35,18 @@ namespace ReplyApp.Models
         public string Name { get; set; }
 
         /// <summary>
-        /// 제목
+        /// [3] 제목
         /// </summary>
         [MaxLength(255)]
         [Required(ErrorMessage = "제목을 입력하세요.")]
+        [Display(Name = "제목")]
+        [Column(TypeName = "NVarChar(255)")]
         public string Title { get; set; }
 
         /// <summary>
-        /// 내용
+        /// [4] 내용
         /// </summary>
+        [Display(Name = "내용")]
         public string Content { get; set; }
 
         /// <summary>
@@ -59,9 +60,9 @@ namespace ReplyApp.Models
         public string CreatedBy { get; set; }
 
         /// <summary>
-        /// 등록일: Created
-        /// </summary>
-        //public DateTimeOffset Created { get; set; }
+        /// [5] 등록일(생성일): Created
+        /// DateTime? 또는 DateTimeOffset? 
+        /// </summary>        
         public DateTime? Created { get; set; }
 
         /// <summary>
@@ -116,5 +117,16 @@ namespace ReplyApp.Models
         /// </summary>
         public int? RefOrder { get; set; } 
         #endregion
+    }
+
+    /// <summary>
+    /// [1] Model Class: Reply 모델 클래스 == Replys 테이블과 일대일로 매핑
+    /// Reply, ReplyModel, ReplyViewModel, ReplyBase, ReplyDto, ReplyEntity, ReplyObject, ...
+    /// </summary>
+    [Table("Replys")]
+    public class Reply : ReplyBase
+    {
+        // PM> Install-Package System.ComponentModel.Annotations
+        // Empty
     }
 }
