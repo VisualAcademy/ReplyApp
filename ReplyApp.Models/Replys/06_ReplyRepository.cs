@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace ReplyApp.Models
 {
     /// <summary>
-    /// [6] Repository Class: ADO.NET or Dapper or Entity Framework Core
+    /// [6] Repository Class: ADO.NET or Dapper(Micro ORM) or Entity Framework Core(ORM)
     /// ~Repository, ~Provider, ~Data
     /// </summary>
     public class ReplyRepository : IReplyRepository
@@ -25,7 +25,7 @@ namespace ReplyApp.Models
         }
 
         #region [6][1] 입력: AddAsync
-        //[6][1] 입력
+        //[6][1] 입력: AddAsync
         public async Task<Reply> AddAsync(Reply model)
         {
             #region Reply 기능 추가
@@ -58,7 +58,7 @@ namespace ReplyApp.Models
         #endregion
 
         #region [6][2] 출력: GetAllAsync
-        //[6][2] 출력
+        //[6][2] 출력: GetAllAsync
         public async Task<List<Reply>> GetAllAsync()
         {
             // 학습 목적으로... InMemory 데이터베이스에선 사용 금지 
@@ -69,7 +69,7 @@ namespace ReplyApp.Models
         }
         #endregion
 
-        #region //[6][3] 상세: GetByIdAsync
+        #region [6][3] 상세: GetByIdAsync
         //[6][3] 상세
         public async Task<Reply> GetByIdAsync(int id)
         {
@@ -90,9 +90,24 @@ namespace ReplyApp.Models
         }
         #endregion
 
-        #region //[6][4] 수정: UpdateAsync
-        //[6][4] 수정
+        #region [6][4] 수정: UpdateAsync
+        //[6][4] 수정: UpdateAsync
         public async Task<bool> EditAsync(Reply model)
+        {
+            try
+            {
+                _context.Replys.Attach(model);
+                _context.Entry(model).State = EntityState.Modified;
+                return (await _context.SaveChangesAsync() > 0 ? true : false);
+            }
+            catch (Exception e)
+            {
+                _logger?.LogError($"ERROR({nameof(EditAsync)}): {e.Message}");
+            }
+
+            return false;
+        }
+        public async Task<bool> UpdateAsync(Reply model)
         {
             try
             {
@@ -103,14 +118,14 @@ namespace ReplyApp.Models
             }
             catch (Exception e)
             {
-                _logger?.LogError($"ERROR({nameof(EditAsync)}): {e.Message}");
+                _logger?.LogError($"ERROR({nameof(UpdateAsync)}): {e.Message}");
             }
 
             return false;
         }
         #endregion
 
-        #region //[6][5] 삭제: DeleteAsync
+        #region [6][5] 삭제: DeleteAsync
         //[6][5] 삭제
         public async Task<bool> DeleteAsync(int id)
         {
@@ -122,7 +137,7 @@ namespace ReplyApp.Models
                 _context.Remove(model);
                 return (await _context.SaveChangesAsync() > 0 ? true : false);
             }
-            catch (Exception ಠ_ಠ)
+            catch (Exception ಠ_ಠ) // Disapproval Look
             {
                 _logger?.LogError($"ERROR({nameof(DeleteAsync)}): {ಠ_ಠ.Message}");
             }
