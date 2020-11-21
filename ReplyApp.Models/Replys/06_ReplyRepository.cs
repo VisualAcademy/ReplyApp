@@ -440,6 +440,8 @@ namespace ReplyApp.Models
             return model;
         }
 
+        #region Dispose
+        // https://docs.microsoft.com/ko-kr/dotnet/api/system.gc.suppressfinalize?view=net-5.0
         public void Dispose()
         {
             Dispose(true);
@@ -455,6 +457,7 @@ namespace ReplyApp.Models
                     _context.Dispose(); //_context = null;
                 }
             }
-        }
+        } 
+        #endregion
     }
 }
