@@ -13,7 +13,7 @@ namespace ReplyApp.Models
     /// [6] Repository Class: ADO.NET or Dapper(Micro ORM) or Entity Framework Core(ORM)
     /// ~Repository, ~Provider, ~Data
     /// </summary>
-    public class ReplyRepository : IReplyRepository
+    public class ReplyRepository : IReplyRepository, IDisposable
     {
         private readonly ReplyAppDbContext _context;
         private readonly ILogger _logger;
@@ -135,7 +135,7 @@ namespace ReplyApp.Models
                 var model = await _context.Replys.FindAsync(id);
                 //_context.Replys.Remove(model);
                 _context.Remove(model);
-                return (await _context.SaveChangesAsync() > 0 ? true : false);
+                return await _context.SaveChangesAsync() > 0;
             }
             catch (Exception ಠ_ಠ) // Disapproval Look
             {
@@ -438,6 +438,23 @@ namespace ReplyApp.Models
             }
 
             return model;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (_context != null)
+                {
+                    _context.Dispose(); //_context = null;
+                }
+            }
         }
     }
 }
