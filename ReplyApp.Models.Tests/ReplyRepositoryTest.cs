@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace ReplyApp.Models.Tests
 {
     /// <summary>
-    /// [7] Test Class: (Arrange -> Act -> Assert) Pattern
+    /// [!] Test Class: (Arrange -> Act -> Assert) Pattern
     /// 필요한 NuGet 패키지: Install-Package Microsoft.EntityFrameworkCore.InMemory
     /// </summary>
     [TestClass]
