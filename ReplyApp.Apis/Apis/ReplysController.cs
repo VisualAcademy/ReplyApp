@@ -24,90 +24,10 @@ namespace ReplyApp.Apis.Controllers
             this._logger = loggerFactory.CreateLogger(nameof(ReplysController));
         }
 
-        #region 출력
-        // 출력
-        // GET api/Replys
-        [HttpGet] // [HttpGet("[action]")] // @GetMapping
-        public async Task<IActionResult> GetAll()
-        {
-            try
-            {
-                var models = await _repository.GetAllAsync();
-                if (!models.Any())
-                {
-                    return new NoContentResult(); // 참고용 코드
-                }
-                return Ok(models); // 200 OK
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e.Message);
-                return BadRequest();
-            }
-        }
-        #endregion
-
-        #region 상세
-        // 상세
-        // GET api/Replys/123
-        [HttpGet("{id:int}", Name = "GetReplyById")] // Name 속성으로 RouteName 설정
-        public async Task<IActionResult> GetById([FromRoute] int id)
-        {
-            try
-            {
-                var model = await _repository.GetByIdAsync(id);
-                if (model == null)
-                {
-                    //return new NoContentResult(); // 204 No Content
-                    return NotFound();
-                }
-                return Ok(model);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e.Message);
-                return BadRequest();
-            }
-        }
-        #endregion
-
-        #region 페이징
-        // 페이징
-        // GET api/Replys/Page/1/10
-        [HttpGet("Page/{pageNumber:int}/{pageSize:int}")]
-        public async Task<IActionResult> GetAll(int pageNumber = 1, int pageSize = 10)
-        {
-            try
-            {
-                // 페이지 번호는 1, 2, 3 사용, 리포지토리에서는 0, 1, 2 사용
-                int pageIndex = (pageNumber > 0) ? pageNumber - 1 : 0;
-
-                var resultSet = await _repository.GetAllAsync(pageIndex, pageSize);
-                if (resultSet.Records == null)
-                {
-                    return NotFound($"아무런 데이터가 없습니다.");
-                }
-
-                // 응답 헤더에 총 레코드 수를 담아서 출력
-                Response.Headers.Add("X-TotalRecordCount", resultSet.TotalRecords.ToString());
-                Response.Headers.Add("Access-Control-Expose-Headers", "X-TotalRecordCount");
-
-                //return Ok(resultSet.Records);
-                var ʘ‿ʘ = resultSet.Records; // 재미를 위해서 
-                return Ok(ʘ‿ʘ); // Look of Approval
-            }
-            catch (Exception ಠ_ಠ) // Look of Disapproval
-            {
-                _logger?.LogError($"ERROR({nameof(GetAll)}): {ಠ_ಠ.Message}");
-                return BadRequest();
-            }
-        }
-        #endregion
-
         #region 입력
         // 입력
         // POST api/Replys
-        [HttpPost] // PostMapping
+        [HttpPost] // @PostMapping
         public async Task<IActionResult> AddAsync([FromBody] Reply dto)
         {
             if (!ModelState.IsValid)
@@ -159,10 +79,57 @@ namespace ReplyApp.Apis.Controllers
         }
         #endregion
 
+        #region 출력
+        // 출력
+        // GET api/Replys
+        [HttpGet] // [HttpGet("[action]")] // @GetMapping
+        public async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                var models = await _repository.GetAllAsync();
+                if (!models.Any())
+                {
+                    return new NoContentResult(); // 참고용 코드
+                }
+                return Ok(models); // 200 OK
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return BadRequest();
+            }
+        }
+        #endregion
+
+        #region 상세
+        // 상세
+        // GET api/Replys/123
+        [HttpGet("{id:int}", Name = "GetReplyById")] // Name 속성으로 RouteName 설정
+        public async Task<IActionResult> GetById([FromRoute] int id)
+        {
+            try
+            {
+                var model = await _repository.GetByIdAsync(id);
+                if (model == null)
+                {
+                    //return new NoContentResult(); // 204 No Content
+                    return NotFound();
+                }
+                return Ok(model);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return BadRequest();
+            }
+        }
+        #endregion
+
         #region 수정
         // 수정
         // PUT api/Replys/123
-        [HttpPut("{id}")]
+        [HttpPut("{id}")] // @PutMapping
         public async Task<IActionResult> EditAsync(int id, [FromBody] Reply dto)
         {
             if (dto == null)
@@ -198,7 +165,7 @@ namespace ReplyApp.Apis.Controllers
         #region 삭제
         // 삭제
         // DELETE api/Replys/1
-        [HttpDelete("{id:int}")]
+        [HttpDelete("{id:int}")] // @DeleteMapping 
         public async Task<IActionResult> DeleteAsync(int id)
         {
             try
@@ -215,70 +182,6 @@ namespace ReplyApp.Apis.Controllers
             {
                 _logger.LogError(e.Message);
                 return BadRequest("삭제할 수 없습니다.");
-            }
-        }
-        #endregion
-    }
-
-    [ApiVersion("2.0")]
-    [ApiController]
-    //[Route("api/v{v:apiVersion}/Replys")]
-    [Route("api/Replys")]
-    [Produces("application/json")]
-    public class ReplysV2_0Controller : ControllerBase
-    {
-        private readonly IReplyRepository _repository;
-        private readonly ILogger _logger;
-
-        public ReplysV2_0Controller(IReplyRepository repository, ILoggerFactory loggerFactory)
-        {
-            this._repository = repository ?? throw new ArgumentNullException(nameof(ReplysController));
-            this._logger = loggerFactory.CreateLogger(nameof(ReplysController));
-        }
-
-        #region 출력
-        // 출력
-        // GET api/Replys
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
-        {
-            try
-            {
-                var models = await _repository.GetAllAsync();
-                if (!models.Any())
-                {
-                    return new NoContentResult(); // 참고용 코드
-                }
-                return Ok(models.OrderBy(m => m.Id)); // 200 OK
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e.Message);
-                return BadRequest();
-            }
-        }
-        #endregion
-
-        #region 상세
-        // 상세
-        // GET api/Replys/123
-        [HttpGet("{id:int}", Name = "GetReplyById")] // Name 속성으로 RouteName 설정
-        public async Task<IActionResult> GetById([FromRoute] int id)
-        {
-            try
-            {
-                var model = await _repository.GetByIdAsync(id);
-                if (model == null)
-                {
-                    //return new NoContentResult(); // 204 No Content
-                    return NotFound();
-                }
-                return Ok(model);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e.Message);
-                return BadRequest();
             }
         }
         #endregion
@@ -304,20 +207,39 @@ namespace ReplyApp.Apis.Controllers
                 Response.Headers.Add("X-TotalRecordCount", resultSet.TotalRecords.ToString());
                 Response.Headers.Add("Access-Control-Expose-Headers", "X-TotalRecordCount");
 
-                return Ok(resultSet.Records);
+                //return Ok(resultSet.Records);
+                var ʘ‿ʘ = resultSet.Records; // 재미를 위해서 
+                return Ok(ʘ‿ʘ); // Look of Approval
             }
-            catch (Exception e)
+            catch (Exception ಠ_ಠ) // Look of Disapproval
             {
-                _logger.LogError(e.Message);
+                _logger?.LogError($"ERROR({nameof(GetAll)}): {ಠ_ಠ.Message}");
                 return BadRequest();
             }
         }
         #endregion
+    }
+
+    [ApiVersion("2.0")]
+    [ApiController]
+    //[Route("api/v{v:apiVersion}/Replys")]
+    [Route("api/Replys")]
+    [Produces("application/json")]
+    public class ReplysV2_0Controller : ControllerBase
+    {
+        private readonly IReplyRepository _repository;
+        private readonly ILogger _logger;
+
+        public ReplysV2_0Controller(IReplyRepository repository, ILoggerFactory loggerFactory)
+        {
+            this._repository = repository ?? throw new ArgumentNullException(nameof(ReplysController));
+            this._logger = loggerFactory.CreateLogger(nameof(ReplysController));
+        }
 
         #region 입력
         // 입력
         // POST api/Replys
-        [HttpPost]
+        [HttpPost] // @PostMapping
         public async Task<IActionResult> AddAsync([FromBody] Reply dto)
         {
             if (!ModelState.IsValid)
@@ -367,6 +289,53 @@ namespace ReplyApp.Apis.Controllers
         }
         #endregion
 
+        #region 출력
+        // 출력
+        // GET api/Replys
+        [HttpGet] // [HttpGet("[action]")] // @GetMapping
+        public async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                var models = await _repository.GetAllAsync();
+                if (!models.Any())
+                {
+                    return new NoContentResult(); // 참고용 코드
+                }
+                return Ok(models.OrderBy(m => m.Id)); // 200 OK
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return BadRequest();
+            }
+        }
+        #endregion
+
+        #region 상세
+        // 상세
+        // GET api/Replys/123
+        [HttpGet("{id:int}", Name = "GetReplyById")] // Name 속성으로 RouteName 설정
+        public async Task<IActionResult> GetById([FromRoute] int id)
+        {
+            try
+            {
+                var model = await _repository.GetByIdAsync(id);
+                if (model == null)
+                {
+                    //return new NoContentResult(); // 204 No Content
+                    return NotFound();
+                }
+                return Ok(model);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return BadRequest();
+            }
+        }
+        #endregion
+
         #region 수정
         // 수정
         // PUT api/Replys/123
@@ -423,6 +392,37 @@ namespace ReplyApp.Apis.Controllers
             {
                 _logger.LogError(e.Message);
                 return BadRequest("삭제할 수 없습니다.");
+            }
+        }
+        #endregion
+
+        #region 페이징
+        // 페이징
+        // GET api/Replys/Page/1/10
+        [HttpGet("Page/{pageNumber:int}/{pageSize:int}")]
+        public async Task<IActionResult> GetAll(int pageNumber = 1, int pageSize = 10)
+        {
+            try
+            {
+                // 페이지 번호는 1, 2, 3 사용, 리포지토리에서는 0, 1, 2 사용
+                int pageIndex = (pageNumber > 0) ? pageNumber - 1 : 0;
+
+                var resultSet = await _repository.GetAllAsync(pageIndex, pageSize);
+                if (resultSet.Records == null)
+                {
+                    return NotFound($"아무런 데이터가 없습니다.");
+                }
+
+                // 응답 헤더에 총 레코드 수를 담아서 출력
+                Response.Headers.Add("X-TotalRecordCount", resultSet.TotalRecords.ToString());
+                Response.Headers.Add("Access-Control-Expose-Headers", "X-TotalRecordCount");
+
+                return Ok(resultSet.Records);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return BadRequest();
             }
         }
         #endregion
