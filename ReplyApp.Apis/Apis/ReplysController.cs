@@ -8,13 +8,11 @@ using System.Threading.Tasks;
 
 namespace ReplyApp.Apis.Controllers
 {
-    [ApiVersion("1.0")]
-    [ApiController] // @RestController 
-    //[Route("api/Replys")]
-    //[Route("api/v{v:apiVersion}/Replys")]
+    [Authorize]
+    [ApiVersion("1.0")] //[Route("api/v{v:apiVersion}/Replys")]
+    [ApiController] // @RestController     
     [Route("api/[controller]")] // [Route("api/Replys")] // @RequestMapping
     [Produces("application/json")]
-    [Authorize]
     public class ReplysController : ControllerBase
     {
         private readonly IReplyRepository _repository;
@@ -109,7 +107,7 @@ namespace ReplyApp.Apis.Controllers
         #region 입력
         // 입력
         // POST api/Replys
-        [HttpPost]
+        [HttpPost] // PostMapping
         public async Task<IActionResult> AddAsync([FromBody] Reply dto)
         {
             if (!ModelState.IsValid)
