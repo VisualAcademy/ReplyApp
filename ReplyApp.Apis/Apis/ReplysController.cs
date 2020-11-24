@@ -130,8 +130,13 @@ namespace ReplyApp.Apis.Controllers
         // 수정
         // PUT api/Replys/123
         [HttpPut("{id}")] // @PutMapping
-        public async Task<IActionResult> EditAsync(int id, [FromBody] Reply dto)
+        public async Task<IActionResult> EditAsync([FromRoute] int? id, [FromBody] Reply dto)
         {
+            if (id is null)
+            {
+                return NotFound();
+            }
+
             if (dto == null)
             {
                 return BadRequest();
@@ -144,7 +149,7 @@ namespace ReplyApp.Apis.Controllers
 
             try
             {
-                dto.Id = id;
+                dto.Id = id ?? default;
                 var status = await _repository.EditAsync(dto);
                 if (!status)
                 {
@@ -340,8 +345,13 @@ namespace ReplyApp.Apis.Controllers
         // 수정
         // PUT api/Replys/123
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditAsync(int id, [FromBody] Reply dto)
+        public async Task<IActionResult> EditAsync([FromRoute] int? id, [FromBody] Reply dto)
         {
+            if (id is null)
+            {
+                return NotFound();
+            }
+
             if (dto == null)
             {
                 return BadRequest();
@@ -354,7 +364,7 @@ namespace ReplyApp.Apis.Controllers
 
             try
             {
-                dto.Id = id;
+                dto.Id = id ?? default;
                 var status = await _repository.EditAsync(dto);
                 if (!status)
                 {
