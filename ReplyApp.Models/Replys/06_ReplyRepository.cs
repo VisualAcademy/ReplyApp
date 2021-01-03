@@ -217,10 +217,10 @@ namespace ReplyApp.Models
             string searchQuery)
         {
             var totalRecords = await _context.Replys
-                .Where(m => m.Name.Contains(searchQuery) || m.Title.Contains(searchQuery) || m.Title.Contains(searchQuery))
+                .Where(m => m.Name.Contains(searchQuery) || m.Title.Contains(searchQuery) || m.Content.Contains(searchQuery))
                 .CountAsync();
             var models = await _context.Replys
-                .Where(m => m.Name.Contains(searchQuery) || m.Title.Contains(searchQuery) || m.Title.Contains(searchQuery))
+                .Where(m => m.Name.Contains(searchQuery) || m.Title.Contains(searchQuery) || m.Content.Contains(searchQuery))
                 .OrderByDescending(m => m.Id)
                 //.Include(m => m.ReplysComments)
                 .Skip(pageIndex * pageSize)
@@ -238,10 +238,10 @@ namespace ReplyApp.Models
             int parentId)
         {
             var totalRecords = await _context.Replys.Where(m => m.ParentId == parentId)
-                .Where(m => EF.Functions.Like(m.Name, $"%{searchQuery}%") || m.Title.Contains(searchQuery) || m.Title.Contains(searchQuery))
+                .Where(m => EF.Functions.Like(m.Name, $"%{searchQuery}%") || m.Title.Contains(searchQuery) || m.Content.Contains(searchQuery))
                 .CountAsync();
             var models = await _context.Replys.Where(m => m.ParentId == parentId)
-                .Where(m => m.Name.Contains(searchQuery) || m.Title.Contains(searchQuery) || m.Title.Contains(searchQuery))
+                .Where(m => m.Name.Contains(searchQuery) || m.Title.Contains(searchQuery) || m.Content.Contains(searchQuery))
                 .OrderByDescending(m => m.Id)
                 //.Include(m => m.ReplysComments)
                 .Skip(pageIndex * pageSize)
@@ -305,10 +305,10 @@ namespace ReplyApp.Models
             string parentKey)
         {
             var totalRecords = await _context.Replys.Where(m => m.ParentKey == parentKey)
-                .Where(m => EF.Functions.Like(m.Name, $"%{searchQuery}%") || m.Title.Contains(searchQuery) || m.Title.Contains(searchQuery))
+                .Where(m => EF.Functions.Like(m.Name, $"%{searchQuery}%") || m.Title.Contains(searchQuery) || m.Content.Contains(searchQuery))
                 .CountAsync();
             var models = await _context.Replys.Where(m => m.ParentKey == parentKey)
-                .Where(m => m.Name.Contains(searchQuery) || m.Title.Contains(searchQuery) || m.Title.Contains(searchQuery))
+                .Where(m => m.Name.Contains(searchQuery) || m.Title.Contains(searchQuery) || m.Content.Contains(searchQuery))
                 .OrderByDescending(m => m.Id)
                 //.Include(m => m.ReplysComments)
                 .Skip(pageIndex * pageSize)
