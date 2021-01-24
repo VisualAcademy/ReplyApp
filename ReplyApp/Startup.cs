@@ -56,7 +56,7 @@ namespace ReplyApp
         private void AddDependencyInjectionContainerForNoticeApp(IServiceCollection services)
         {
             // NoticeAppDbContext.cs Inject: New DbContext Add
-            services.AddEntityFrameworkSqlServer().AddDbContext<NoticeAppDbContext>(options =>
+            services.AddDbContext<NoticeAppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
 
             // INoticeRepositoryAsync.cs Inject: DI Container에 서비스(리포지토리) 등록 
@@ -70,7 +70,7 @@ namespace ReplyApp
         private void AddDependencyInjectionContainerForUploadApp(IServiceCollection services)
         {
             // NoticeAppDbContext.cs Inject: New DbContext Add
-            services.AddEntityFrameworkSqlServer().AddDbContext<UploadAppDbContext>(options =>
+            services.AddDbContext<UploadAppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
 
             // INoticeRepositoryAsync.cs Inject: DI Container에 서비스(리포지토리) 등록 
@@ -84,7 +84,7 @@ namespace ReplyApp
         private void AddDependencyInjectionContainerForReplyApp(IServiceCollection services)
         {
             // ReplyAppDbContext.cs Inject: New DbContext Add
-            services.AddEntityFrameworkSqlServer().AddDbContext<ReplyAppDbContext>(options =>
+            services.AddDbContext<ReplyAppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")), ServiceLifetime.Transient);
 
             // IReplyRepositoryAsync.cs Inject: DI Container에 서비스(리포지토리) 등록 
